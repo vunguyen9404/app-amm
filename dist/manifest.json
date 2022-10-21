@@ -3,13 +3,13 @@
     "file": "_nuxt/img-no-Positions@2x.539fc496.png",
     "src": "assets/image/img-no-Positions@2x.png"
   },
-  "assets/image/img-connect-wallet@2x.png": {
-    "file": "_nuxt/img-connect-wallet@2x.ad00411b.png",
-    "src": "assets/image/img-connect-wallet@2x.png"
-  },
   "assets/image/img-banner@2x.png": {
     "file": "_nuxt/img-banner@2x.5cd587a2.png",
     "src": "assets/image/img-banner@2x.png"
+  },
+  "assets/image/img-connect-wallet@2x.png": {
+    "file": "_nuxt/img-connect-wallet@2x.ad00411b.png",
+    "src": "assets/image/img-connect-wallet@2x.png"
   },
   "assets/image/img-no-data@2x.png": {
     "file": "_nuxt/img-no-data@2x.6b00f1d1.png",
@@ -40,7 +40,7 @@
     "src": "assets/sui-image/img-Transaction-Submitted@2x.png"
   },
   "../node_modules/nuxt/dist/app/entry.mjs": {
-    "file": "_nuxt/entry.73c5b7cb.mjs",
+    "file": "_nuxt/entry.c597b80b.mjs",
     "src": "../node_modules/nuxt/dist/app/entry.mjs",
     "isEntry": true,
     "dynamicImports": [
@@ -64,11 +64,11 @@
       "layouts/default.vue"
     ],
     "css": [
-      "_nuxt/entry.692db43a.css"
+      "_nuxt/entry.ac433bac.css"
     ]
   },
   "../virtual:nuxt:/Users/huangenzi/Desktop/work/cetus-app/dist/error-component.mjs": {
-    "file": "_nuxt/error-component.ca679a6d.mjs",
+    "file": "_nuxt/error-component.08f56850.mjs",
     "src": "../virtual:nuxt:/Users/huangenzi/Desktop/work/cetus-app/dist/error-component.mjs",
     "isDynamicEntry": true,
     "imports": [
@@ -80,44 +80,44 @@
     ]
   },
   "pages/increase-liquidity.vue": {
-    "file": "_nuxt/increase-liquidity.bd90b0b7.mjs",
+    "file": "_nuxt/increase-liquidity.dd3ed7d9.mjs",
     "src": "pages/increase-liquidity.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_back.fb2105a8.mjs",
-      "_coin-pair-name.e345e7ac.mjs",
-      "_status-block.a3960600.mjs",
-      "_coin-tab.2c750be4.mjs",
-      "_assets-card.352a1a9a.mjs",
-      "_coin-select.ef5689c6.mjs",
-      "_swap-setting.334319d6.mjs",
-      "_add-liquidity.10cff0aa.mjs",
+      "_back.fe7c48ab.mjs",
+      "_coin-pair-name.d546b6e1.mjs",
+      "_status-block.394b7394.mjs",
+      "_coin-tab.a402bf2d.mjs",
+      "_assets-card.ce3dfb1c.mjs",
+      "_coin-select.2f4a3700.mjs",
+      "_swap-setting.7e62e97c.mjs",
+      "_add-liquidity.54de2026.mjs",
       "../node_modules/nuxt/dist/app/entry.mjs"
     ],
     "css": [
-      "_nuxt/increase-liquidity.86e03c28.css"
+      "_nuxt/increase-liquidity.c8a87bf3.css"
     ]
   },
-  "_back.fb2105a8.mjs": {
-    "file": "_nuxt/back.fb2105a8.mjs",
+  "_back.fe7c48ab.mjs": {
+    "file": "_nuxt/back.fe7c48ab.mjs",
     "imports": [
       "../node_modules/nuxt/dist/app/entry.mjs"
     ],
     "css": [
-      "_nuxt/back.f4b62b50.css"
+      "_nuxt/back.82053053.css"
     ]
   },
-  "_coin-pair-name.e345e7ac.mjs": {
-    "file": "_nuxt/coin-pair-name.e345e7ac.mjs",
+  "_coin-pair-name.d546b6e1.mjs": {
+    "file": "_nuxt/coin-pair-name.d546b6e1.mjs",
     "imports": [
       "../node_modules/nuxt/dist/app/entry.mjs"
     ],
     "css": [
-      "_nuxt/coin-pair-name.536e827a.css"
+      "_nuxt/coin-pair-name.e93da886.css"
     ]
   },
-  "_status-block.a3960600.mjs": {
-    "file": "_nuxt/status-block.a3960600.mjs",
+  "_status-block.394b7394.mjs": {
+    "file": "_nuxt/status-block.394b7394.mjs",
     "imports": [
       "../node_modules/nuxt/dist/app/entry.mjs"
     ],
@@ -125,23 +125,23 @@
       "_nuxt/status-block.72822b21.css"
     ]
   },
-  "_coin-tab.2c750be4.mjs": {
-    "file": "_nuxt/coin-tab.2c750be4.mjs",
+  "_coin-tab.a402bf2d.mjs": {
+    "file": "_nuxt/coin-tab.a402bf2d.mjs",
     "imports": [
       "../node_modules/nuxt/dist/app/entry.mjs"
     ],
     "css": [
-      "_nuxt/coin-tab.d368e528.css"
+      "_nuxt/coin-tab.9328dccf.css"
     ]
   },
-  "_assets-card.352a1a9a.mjs": {
-    "file": "_nuxt/assets-card.352a1a9a.mjs",
+  "_assets-card.ce3dfb1c.mjs": {
+    "file": "_nuxt/assets-card.ce3dfb1c.mjs",
     "imports": [
       "../node_modules/nuxt/dist/app/entry.mjs"
     ]
   },
-  "_coin-select.ef5689c6.mjs": {
-    "file": "_nuxt/coin-select.ef5689c6.mjs",
+  "_coin-select.2f4a3700.mjs": {
+    "file": "_nuxt/coin-select.2f4a3700.mjs",
     "imports": [
       "../node_modules/nuxt/dist/app/entry.mjs"
     ],
@@ -150,189 +150,196 @@
       "_nuxt/img-no-data@2x.74c8c73d.png"
     ]
   },
-  "_swap-setting.334319d6.mjs": {
-    "file": "_nuxt/swap-setting.334319d6.mjs",
+  "_swap-setting.7e62e97c.mjs": {
+    "file": "_nuxt/swap-setting.7e62e97c.mjs",
     "imports": [
       "../node_modules/nuxt/dist/app/entry.mjs"
     ]
   },
-  "_add-liquidity.10cff0aa.mjs": {
-    "file": "_nuxt/add-liquidity.10cff0aa.mjs",
+  "_add-liquidity.54de2026.mjs": {
+    "file": "_nuxt/add-liquidity.54de2026.mjs",
     "imports": [
-      "_coin-pair-name.e345e7ac.mjs",
-      "_status-block.a3960600.mjs",
-      "_coin-tab.2c750be4.mjs",
+      "_coin-pair-name.d546b6e1.mjs",
+      "_status-block.394b7394.mjs",
+      "_coin-tab.a402bf2d.mjs",
       "../node_modules/nuxt/dist/app/entry.mjs"
     ],
     "css": [
-      "_nuxt/add-liquidity.5a99a474.css"
+      "_nuxt/add-liquidity.d327a4c8.css"
     ]
   },
   "pages/index.vue": {
-    "file": "_nuxt/index.908ef14a.mjs",
+    "file": "_nuxt/index.1866c335.mjs",
     "src": "pages/index.vue",
     "isDynamicEntry": true,
     "imports": [
       "pages/swap.vue",
-      "_refresh-icon.6e1dd9fe.mjs",
+      "_refresh-icon.eaaabcd4.mjs",
       "../node_modules/nuxt/dist/app/entry.mjs",
-      "_assets-card.352a1a9a.mjs",
-      "_coin-select.ef5689c6.mjs",
-      "_img-leverage_2x.e1a2cc00.mjs",
-      "_swap-setting.334319d6.mjs"
+      "_assets-card.ce3dfb1c.mjs",
+      "_coin-select.2f4a3700.mjs",
+      "_img-leverage_2x.d1a63b40.mjs",
+      "_swap-setting.7e62e97c.mjs"
     ]
   },
   "pages/swap.vue": {
-    "file": "_nuxt/swap.d0fa4c81.mjs",
+    "file": "_nuxt/swap.302ab865.mjs",
     "src": "pages/swap.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_refresh-icon.6e1dd9fe.mjs",
-      "_assets-card.352a1a9a.mjs",
-      "_coin-select.ef5689c6.mjs",
-      "_img-leverage_2x.e1a2cc00.mjs",
-      "_swap-setting.334319d6.mjs",
+      "_refresh-icon.eaaabcd4.mjs",
+      "_assets-card.ce3dfb1c.mjs",
+      "_coin-select.2f4a3700.mjs",
+      "_img-leverage_2x.d1a63b40.mjs",
+      "_swap-setting.7e62e97c.mjs",
       "../node_modules/nuxt/dist/app/entry.mjs"
     ]
   },
-  "_refresh-icon.6e1dd9fe.mjs": {
-    "file": "_nuxt/refresh-icon.6e1dd9fe.mjs",
+  "_refresh-icon.eaaabcd4.mjs": {
+    "file": "_nuxt/refresh-icon.eaaabcd4.mjs",
     "imports": [
       "../node_modules/nuxt/dist/app/entry.mjs"
     ]
   },
-  "_img-leverage_2x.e1a2cc00.mjs": {
-    "file": "_nuxt/img-leverage_2x.e1a2cc00.mjs",
+  "_img-leverage_2x.d1a63b40.mjs": {
+    "file": "_nuxt/img-leverage_2x.d1a63b40.mjs",
     "imports": [
       "../node_modules/nuxt/dist/app/entry.mjs"
     ]
   },
   "pages/pools-liquidity-add.vue": {
-    "file": "_nuxt/pools-liquidity-add.3457a076.mjs",
+    "file": "_nuxt/pools-liquidity-add.37ccb680.mjs",
     "src": "pages/pools-liquidity-add.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_back.fb2105a8.mjs",
-      "_refresh-icon.6e1dd9fe.mjs",
-      "_assets-card.352a1a9a.mjs",
-      "_coin-select.ef5689c6.mjs",
-      "_img-leverage_2x.e1a2cc00.mjs",
-      "_swap-setting.334319d6.mjs",
+      "_back.fe7c48ab.mjs",
+      "_refresh-icon.eaaabcd4.mjs",
+      "_assets-card.ce3dfb1c.mjs",
+      "_coin-select.2f4a3700.mjs",
+      "_img-leverage_2x.d1a63b40.mjs",
+      "_swap-setting.7e62e97c.mjs",
       "../node_modules/nuxt/dist/app/entry.mjs"
     ],
     "css": [
-      "_nuxt/pools-liquidity-add.3060483c.css"
+      "_nuxt/pools-liquidity-add.15027326.css"
     ]
   },
   "pages/pools-management-remove.vue": {
-    "file": "_nuxt/pools-management-remove.3d3a6844.mjs",
+    "file": "_nuxt/pools-management-remove.b7170e0c.mjs",
     "src": "pages/pools-management-remove.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_back.fb2105a8.mjs",
-      "_assets-card.352a1a9a.mjs",
-      "_swap-setting.334319d6.mjs",
+      "_back.fe7c48ab.mjs",
+      "_assets-card.ce3dfb1c.mjs",
+      "_swap-setting.7e62e97c.mjs",
       "../node_modules/nuxt/dist/app/entry.mjs"
     ],
     "css": [
-      "_nuxt/pools-management-remove.ed6df909.css",
+      "_nuxt/pools-management-remove.bafa4bec.css",
       "_nuxt/index.0cac557f.css"
     ]
   },
   "pages/pools-positions.vue": {
-    "file": "_nuxt/pools-positions.795a634b.mjs",
+    "file": "_nuxt/pools-positions.41fdb85d.mjs",
     "src": "pages/pools-positions.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_refresh-icon.6e1dd9fe.mjs",
-      "_coin-pair-name.e345e7ac.mjs",
-      "_assets-card.352a1a9a.mjs",
+      "_refresh-icon.eaaabcd4.mjs",
+      "_coin-pair-name.d546b6e1.mjs",
+      "_assets-card.ce3dfb1c.mjs",
       "../node_modules/nuxt/dist/app/entry.mjs",
-      "_coin-select.ef5689c6.mjs",
-      "_swap-setting.334319d6.mjs",
-      "_add-liquidity.10cff0aa.mjs",
-      "_status-block.a3960600.mjs",
-      "_coin-tab.2c750be4.mjs"
+      "_coin-select.2f4a3700.mjs",
+      "_swap-setting.7e62e97c.mjs",
+      "_add-liquidity.54de2026.mjs",
+      "_status-block.394b7394.mjs",
+      "_coin-tab.a402bf2d.mjs"
     ],
     "css": [
-      "_nuxt/pools-positions.15d9e907.css"
+      "_nuxt/pools-positions.fd422fd1.css"
     ]
   },
   "pages/pools.vue": {
-    "file": "_nuxt/pools.08e05ff9.mjs",
+    "file": "_nuxt/pools.55f659c1.mjs",
     "src": "pages/pools.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_coin-pair-name.e345e7ac.mjs",
-      "../node_modules/nuxt/dist/app/entry.mjs"
+      "_coin-pair-name.d546b6e1.mjs",
+      "../node_modules/nuxt/dist/app/entry.mjs",
+      "_img-no-Positions_2x.3c474442.mjs"
     ],
     "css": [
-      "_nuxt/pools.f5b8c745.css"
+      "_nuxt/pools.98a7741a.css"
     ],
     "assets": [
       "_nuxt/img-banner@2x.5cd587a2.png"
     ]
   },
+  "_img-no-Positions_2x.3c474442.mjs": {
+    "file": "_nuxt/img-no-Positions_2x.3c474442.mjs",
+    "assets": [
+      "_nuxt/img-no-Positions@2x.539fc496.png"
+    ]
+  },
   "pages/position-detail/[id].vue": {
-    "file": "_nuxt/_id_.afc7b7ab.mjs",
+    "file": "_nuxt/_id_.a7dfaaed.mjs",
     "src": "pages/position-detail/[id].vue",
     "isDynamicEntry": true,
     "imports": [
-      "_back.fb2105a8.mjs",
-      "_coin-pair-name.e345e7ac.mjs",
-      "_status-block.a3960600.mjs",
+      "_back.fe7c48ab.mjs",
+      "_coin-pair-name.d546b6e1.mjs",
+      "_status-block.394b7394.mjs",
       "../node_modules/nuxt/dist/app/entry.mjs",
-      "_coin-tab.2c750be4.mjs"
+      "_coin-tab.a402bf2d.mjs"
     ],
     "css": [
-      "_nuxt/[id].c31eda6c.css"
+      "_nuxt/[id].39f977e5.css"
     ]
   },
   "pages/position-list.vue": {
-    "file": "_nuxt/position-list.9a55a3bd.mjs",
+    "file": "_nuxt/position-list.af17009a.mjs",
     "src": "pages/position-list.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_back.fb2105a8.mjs",
-      "_coin-pair-name.e345e7ac.mjs",
-      "_status-block.a3960600.mjs",
-      "../node_modules/nuxt/dist/app/entry.mjs"
+      "_back.fe7c48ab.mjs",
+      "_coin-pair-name.d546b6e1.mjs",
+      "_status-block.394b7394.mjs",
+      "../node_modules/nuxt/dist/app/entry.mjs",
+      "_img-no-Positions_2x.3c474442.mjs"
     ],
     "css": [
-      "_nuxt/position-list.803b792f.css"
+      "_nuxt/position-list.f2ce4edc.css"
     ],
     "assets": [
-      "_nuxt/img-no-Positions@2x.539fc496.png",
       "_nuxt/img-connect-wallet@2x.ad00411b.png"
     ]
   },
   "pages/remove-liquidity.vue": {
-    "file": "_nuxt/remove-liquidity.5d6a16a2.mjs",
+    "file": "_nuxt/remove-liquidity.290d9bdd.mjs",
     "src": "pages/remove-liquidity.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_back.fb2105a8.mjs",
-      "_coin-pair-name.e345e7ac.mjs",
-      "_status-block.a3960600.mjs",
-      "_swap-setting.334319d6.mjs",
+      "_back.fe7c48ab.mjs",
+      "_coin-pair-name.d546b6e1.mjs",
+      "_status-block.394b7394.mjs",
+      "_swap-setting.7e62e97c.mjs",
       "../node_modules/nuxt/dist/app/entry.mjs"
     ],
     "css": [
-      "_nuxt/remove-liquidity.7fe0f336.css",
+      "_nuxt/remove-liquidity.7f4db0f0.css",
       "_nuxt/index.0cac557f.css"
     ]
   },
   "pages/test/about.vue": {
-    "file": "_nuxt/about.88b6d5c5.mjs",
+    "file": "_nuxt/about.e8655b00.mjs",
     "src": "pages/test/about.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_swap-setting.334319d6.mjs",
+      "_swap-setting.7e62e97c.mjs",
       "../node_modules/nuxt/dist/app/entry.mjs"
     ]
   },
   "pages/test/contract.vue": {
-    "file": "_nuxt/contract.9455c319.mjs",
+    "file": "_nuxt/contract.8d8aa8ef.mjs",
     "src": "pages/test/contract.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -343,7 +350,7 @@
     ]
   },
   "pages/test/index.vue": {
-    "file": "_nuxt/index.9c171077.mjs",
+    "file": "_nuxt/index.d6b5c13b.mjs",
     "src": "pages/test/index.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -351,7 +358,7 @@
     ]
   },
   "pages/test/suitest.vue": {
-    "file": "_nuxt/suitest.bad11a09.mjs",
+    "file": "_nuxt/suitest.483aaccb.mjs",
     "src": "pages/test/suitest.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -366,27 +373,27 @@
     "file": "_nuxt/index.afdc94b2.mjs"
   },
   "pages/test/wallet.vue": {
-    "file": "_nuxt/wallet.9ee8caba.mjs",
+    "file": "_nuxt/wallet.f8454126.mjs",
     "src": "pages/test/wallet.vue",
     "isDynamicEntry": true,
     "imports": [
       "../node_modules/nuxt/dist/app/entry.mjs",
-      "_useTheme.40ec554d.mjs",
+      "_useTheme.1cc300ea.mjs",
       "_index.afdc94b2.mjs"
     ],
     "css": [
       "_nuxt/wallet.b8ab9181.css"
     ]
   },
-  "_useTheme.40ec554d.mjs": {
-    "file": "_nuxt/useTheme.40ec554d.mjs",
+  "_useTheme.1cc300ea.mjs": {
+    "file": "_nuxt/useTheme.1cc300ea.mjs",
     "imports": [
       "../node_modules/nuxt/dist/app/entry.mjs",
       "_index.afdc94b2.mjs"
     ]
   },
   "middleware/detail.ts": {
-    "file": "_nuxt/detail.4848a0c0.mjs",
+    "file": "_nuxt/detail.8b861d75.mjs",
     "src": "middleware/detail.ts",
     "isDynamicEntry": true,
     "imports": [
@@ -394,16 +401,16 @@
     ]
   },
   "layouts/default.vue": {
-    "file": "_nuxt/default.40e1108e.mjs",
+    "file": "_nuxt/default.97f86755.mjs",
     "src": "layouts/default.vue",
     "isDynamicEntry": true,
     "imports": [
       "../node_modules/nuxt/dist/app/entry.mjs",
-      "_useTheme.40ec554d.mjs",
+      "_useTheme.1cc300ea.mjs",
       "_index.afdc94b2.mjs"
     ],
     "css": [
-      "_nuxt/default.339537dc.css"
+      "_nuxt/default.94909df8.css"
     ],
     "assets": [
       "_nuxt/img-Transaction-Submitted@2x.0852ca51.png",
@@ -414,7 +421,7 @@
     ]
   },
   "../node_modules/@nuxt/ui-templates/dist/templates/error-404.vue": {
-    "file": "_nuxt/error-404.234c7ae0.mjs",
+    "file": "_nuxt/error-404.c6111241.mjs",
     "src": "../node_modules/@nuxt/ui-templates/dist/templates/error-404.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -425,7 +432,7 @@
     ]
   },
   "../node_modules/@nuxt/ui-templates/dist/templates/error-500.vue": {
-    "file": "_nuxt/error-500.09de80cd.mjs",
+    "file": "_nuxt/error-500.e30c7ac3.mjs",
     "src": "../node_modules/@nuxt/ui-templates/dist/templates/error-500.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -455,68 +462,68 @@
     "file": "_nuxt/wallet.b8ab9181.css",
     "src": "pages/test/wallet.css"
   },
-  "../node_modules/@nuxt/ui-templates/dist/templates/error-404.css": {
-    "file": "_nuxt/error-404.8778dcd4.css",
-    "src": "../node_modules/@nuxt/ui-templates/dist/templates/error-404.css"
-  },
   "../node_modules/@nuxt/ui-templates/dist/templates/error-500.css": {
     "file": "_nuxt/error-500.afe386a3.css",
     "src": "../node_modules/@nuxt/ui-templates/dist/templates/error-500.css"
   },
+  "../node_modules/@nuxt/ui-templates/dist/templates/error-404.css": {
+    "file": "_nuxt/error-404.8778dcd4.css",
+    "src": "../node_modules/@nuxt/ui-templates/dist/templates/error-404.css"
+  },
   "coin-tab.css": {
-    "file": "_nuxt/coin-tab.d368e528.css",
+    "file": "_nuxt/coin-tab.9328dccf.css",
     "src": "coin-tab.css"
   },
-  "back.css": {
-    "file": "_nuxt/back.f4b62b50.css",
-    "src": "back.css"
-  },
   "pages/increase-liquidity.css": {
-    "file": "_nuxt/increase-liquidity.86e03c28.css",
+    "file": "_nuxt/increase-liquidity.c8a87bf3.css",
     "src": "pages/increase-liquidity.css"
   },
   "coin-pair-name.css": {
-    "file": "_nuxt/coin-pair-name.536e827a.css",
+    "file": "_nuxt/coin-pair-name.e93da886.css",
     "src": "coin-pair-name.css"
   },
-  "add-liquidity.css": {
-    "file": "_nuxt/add-liquidity.5a99a474.css",
-    "src": "add-liquidity.css"
-  },
   "pages/remove-liquidity.css": {
-    "file": "_nuxt/remove-liquidity.7fe0f336.css",
+    "file": "_nuxt/remove-liquidity.7f4db0f0.css",
     "src": "pages/remove-liquidity.css"
   },
-  "pages/pools-management-remove.css": {
-    "file": "_nuxt/pools-management-remove.ed6df909.css",
-    "src": "pages/pools-management-remove.css"
+  "add-liquidity.css": {
+    "file": "_nuxt/add-liquidity.d327a4c8.css",
+    "src": "add-liquidity.css"
+  },
+  "back.css": {
+    "file": "_nuxt/back.82053053.css",
+    "src": "back.css"
   },
   "pages/pools.css": {
-    "file": "_nuxt/pools.f5b8c745.css",
+    "file": "_nuxt/pools.98a7741a.css",
     "src": "pages/pools.css"
   },
   "pages/pools-liquidity-add.css": {
-    "file": "_nuxt/pools-liquidity-add.3060483c.css",
+    "file": "_nuxt/pools-liquidity-add.15027326.css",
     "src": "pages/pools-liquidity-add.css"
   },
+  "pages/pools-management-remove.css": {
+    "file": "_nuxt/pools-management-remove.bafa4bec.css",
+    "src": "pages/pools-management-remove.css"
+  },
   "pages/position-list.css": {
-    "file": "_nuxt/position-list.803b792f.css",
+    "file": "_nuxt/position-list.f2ce4edc.css",
     "src": "pages/position-list.css"
   },
   "pages/pools-positions.css": {
-    "file": "_nuxt/pools-positions.15d9e907.css",
+    "file": "_nuxt/pools-positions.fd422fd1.css",
     "src": "pages/pools-positions.css"
   },
   "pages/position-detail/[id].css": {
-    "file": "_nuxt/[id].c31eda6c.css",
+    "file": "_nuxt/[id].39f977e5.css",
     "src": "pages/position-detail/[id].css"
   },
-  "../node_modules/nuxt/dist/app/entry.css": {
-    "file": "_nuxt/entry.692db43a.css",
-    "src": "../node_modules/nuxt/dist/app/entry.css"
-  },
   "layouts/default.css": {
-    "file": "_nuxt/default.339537dc.css",
+    "file": "_nuxt/default.94909df8.css",
     "src": "layouts/default.css"
+  },
+  "../node_modules/nuxt/dist/app/entry.css": {
+    "file": "_nuxt/entry.ac433bac.css",
+    "src": "../node_modules/nuxt/dist/app/entry.css"
   }
 }
