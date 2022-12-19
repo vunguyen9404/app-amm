@@ -1,4 +1,4 @@
-# Nuxt 3 Minimal Starter
+# Cetus
 
 Look at the [nuxt 3 documentation](https://v3.nuxtjs.org) to learn more.
 
@@ -13,13 +13,11 @@ yarn install
 # npm
 npm install
 
-# pnpm
-pnpm install --shamefully-hoist
 ```
 
 ## Development Server
 
-Start the development server on http://localhost:3000
+Start the development server on http://localhost:9002
 
 ```bash
 npm run dev
