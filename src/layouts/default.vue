@@ -70,14 +70,20 @@ export default defineComponent({
     })
 
     //------------------watch wallet network start
-    window?.aptos?.onNetworkChange(newNetwork => {
-      walletStore.setNetwork(newNetwork.networkName)
-    })
-    window?.martian?.onNetworkChange(networkName => walletStore.setNetwork(networkName))
+    if (window && window.aptos && window.aptos.onNetworkChange) {
+      window?.aptos?.onNetworkChange(newNetwork => {
+        walletStore.setNetwork(newNetwork.networkName)
+      })
+    }
+    if (window && window.martian && window.martian.onNetworkChange) {
+      window?.martian?.onNetworkChange(networkName => walletStore.setNetwork(networkName))
+    }
 
-    window?.pontem?.onNetworkChange(newNetwork => {
-      walletStore.setNetwork(newNetwork.name)
-    })
+    if (window && window.pontem && window.pontem.onNetworkChange) {
+      window?.pontem?.onNetworkChange(newNetwork => {
+        walletStore.setNetwork(newNetwork.name)
+      })
+    }
 
     //------------------watch wallet netword end
     counter.getStatsData()
@@ -227,16 +233,16 @@ export default defineComponent({
 }
 .default-container {
   width: 100%;
-  // min-width: 1050px;
+  min-width: 1100px;
   // margin: 0 auto;
   height: 100vh;
   position: relative;
   background: @backgroundColor;
   .header-container {
     width: 100%;
-    // min-width: 1050px;
-    // position: static;
-    position: fixed;
+    min-width: 1100px;
+    position: static;
+    // position: fixed;
     top: 0;
     left: 0;
     z-index: 99;
@@ -283,8 +289,9 @@ export default defineComponent({
     min-width: unset;
     .header-container {
       width: 100%;
+      min-width: unset !important;
       // padding-top: 20px;
-      position: fixed;
+      position: fixed !important;
       top: 0;
       left: 0;
     }

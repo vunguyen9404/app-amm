@@ -106,25 +106,25 @@
         <div class="contact-us-item">
           <a class="item" href="https://cetus-1.gitbook.io/cetus-docs/" target="_blank">
             <svg aria-hidden="true" class="icon">
-              <use xlink:href="#icon-icon-Docs" />
+              <use xlink:href="#icon-svg-docs" />
             </svg>
             <span>{{ $t('contactUS.docs') }}</span>
           </a>
         </div>
         <div class="contact-us-list">
-          <div class="contact-us-item">
+          <!-- <div class="contact-us-item">
             <a class="item" href="https://twitter.com/CetusProtocol" target="_blank">
               <svg aria-hidden="true" class="icon">
-                <use xlink:href="#icon-icon-twitter" />
+                <use xlink:href="#icon-svg-twitter" />
               </svg>
               <span>{{ $t('contactUS.twitter') }}</span>
             </a>
-          </div>
+          </div> -->
 
           <div class="contact-us-item">
             <a class="item" href="https://twitter.com/CetusProtocol" target="_blank">
               <svg aria-hidden="true" class="icon">
-                <use xlink:href="#icon-icon-twitter" />
+                <use xlink:href="#icon-svg-twitter" />
               </svg>
               <span>{{ $t('contactUS.twitter') }}</span>
             </a>
@@ -133,7 +133,7 @@
           <div class="contact-us-item">
             <a class="item" href="https://discord.gg/rQtYGfmcD8" target="_blank">
               <svg aria-hidden="true" class="icon">
-                <use xlink:href="#icon-icon-Discord" />
+                <use xlink:href="#icon-svg-Discord" />
               </svg>
               <span>{{ $t('contactUS.discord') }}</span>
             </a>
@@ -142,25 +142,25 @@
           <div class="contact-us-item">
             <a class="item" href="https://t.me/cetuscommunity" target="_blank">
               <svg aria-hidden="true" class="icon">
-                <use xlink:href="#icon-icon-telegram" />
+                <use xlink:href="#icon-svg-lark" />
               </svg>
               <span>{{ $t('contactUS.tgGroup') }}</span>
             </a>
           </div>
 
-          <div class="contact-us-item">
+          <!-- <div class="contact-us-item">
             <a class="item" href="https://t.me/cetusprotocol" target="_blank">
               <svg aria-hidden="true" class="icon">
-                <use xlink:href="#icon-icon-TgChannel" />
+                <use xlink:href="#icon-svg-tg" />
               </svg>
               <span>{{ $t('contactUS.tgChannel') }}</span>
             </a>
-          </div>
+          </div> -->
 
           <div class="contact-us-item">
             <a class="item" href="https://t.me/cetusprotocol" target="_blank">
               <svg aria-hidden="true" class="icon">
-                <use xlink:href="#icon-icon-TgChannel" />
+                <use xlink:href="#icon-svg-tg" />
               </svg>
               <span>{{ $t('contactUS.tgChannel') }}</span>
             </a>
@@ -188,32 +188,32 @@ export default defineComponent({
     let list = [
       {
         name: t('contactUS.docs'),
-        icon: '#icon-icon-Docs',
+        icon: '#icon-svg-docs',
         link: 'https://cetus-1.gitbook.io/cetus-docs/'
       },
       {
         name: t('contactUS.twitter'),
-        icon: '#icon-icon-twitter',
+        icon: '#icon-svg-twitter',
         link: 'https://twitter.com/CetusProtocol'
       },
       {
         name: t('contactUS.discord'),
-        icon: '#icon-icon-Discord',
+        icon: '#icon-svg-Discord',
         link: 'https://discord.gg/rQtYGfmcD8'
       },
       {
         name: t('contactUS.tgGroup'),
-        icon: '#icon-icon-telegram',
+        icon: '#icon-svg-lark',
         link: 'https://t.me/cetuscommunity'
       },
       {
         name: t('contactUS.tgChannel'),
-        icon: '#icon-icon-TgChannel',
+        icon: '#icon-svg-tg',
         link: 'https://t.me/cetusprotocol'
       },
       {
         name: t('contactUS.medium'),
-        icon: '#icon-icon-medium',
+        icon: '#icon-svg-medium',
         link: 'https://medium.com/@CetusProtocol'
       }
     ]
@@ -291,32 +291,32 @@ export default defineComponent({
       list = [
         {
           name: t('contactUS.docs'),
-          icon: '#icon-icon-Docs',
+          icon: '#icon-svg-docs',
           link: 'https://cetus-1.gitbook.io/cetus-docs/'
         },
         {
           name: t('contactUS.twitter'),
-          icon: '#icon-icon-twitter',
+          icon: '#icon-svg-twitter',
           link: 'https://twitter.com/CetusProtocol'
         },
         {
           name: t('contactUS.discord'),
-          icon: '#icon-icon-Discord',
+          icon: '#icon-svg-Discord',
           link: 'https://discord.gg/cetusprotocol'
         },
         {
           name: t('contactUS.tgGroup'),
-          icon: '#icon-icon-telegram',
+          icon: '#icon-svg-lark',
           link: 'https://t.me/cetuscommunity'
         },
         {
           name: t('contactUS.tgChannel'),
-          icon: '#icon-icon-TgChannel',
+          icon: '#icon-svg-tg',
           link: 'https://t.me/cetusprotocol'
         },
         {
           name: t('contactUS.medium'),
-          icon: '#icon-icon-medium',
+          icon: '#icon-svg-medium',
           link: 'https://medium.com/@CetusProtocol'
         }
       ]

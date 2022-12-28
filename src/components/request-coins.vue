@@ -138,7 +138,9 @@ export default defineComponent({
             tx = await wallet.value.currentWallet.signAndSubmitTransaction(payload)
           } else {
             const res = await wallet.value.currentWallet.signAndExecuteTransaction(payload)
+            console.log('1220###request coin###res###', res)
             tx = contractStore.handleTx(res)
+            console.log('1220###request coin###tx###', tx)
           }
 
           if (tx) {
@@ -185,6 +187,7 @@ export default defineComponent({
           }
           loading.value = false
         } catch (error) {
+          console.log('1220####request coin###error####', error)
           loading.value = false
           setIsShowWaiting(false)
           // setIsShowRejected(true)

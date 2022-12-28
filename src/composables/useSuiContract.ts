@@ -102,10 +102,10 @@ export default function () {
         typeArguments: [],
         gasBudget: 1000,
         arguments: [
-          '0x137a705c58c023388773791086a7027b81dfdd7a',
-          '0x71af53d841d834b4c178de6fb61cce915dd00355',
-          '0x69b32e3cebc804e22370b44d473c516766b6332b',
-          '0xfabd90cfd4c504bff2b2a8405cb70e8b26a08185'
+          '0xa740bef77f2ba0fcaeb804b0d897bf9a60c21ceb',
+          '0x444b84105c1e4218e68cfdcfcad27aa8cf4be627',
+          '0xa9b40540cf3908da00097df99ea72d8cc6cb3d19',
+          '0x8414648c75bfd7eb92f5afb315b28fc105a72864'
         ]
       }
     }
@@ -113,14 +113,14 @@ export default function () {
     return payload
   }
 
-  const getFaucetEventsTime = async (account: string) => {
-    const intervalFaucetTime = 12 * 60 * 60 * 1000
-    const faucetEvents = await sdk.Resources.getFaucetEvent(faucetObjectId, account, intervalFaucetTime)
-    if (faucetEvents && faucetEvents.time) {
-      return faucetEvents.time.toNumber()
-    }
-    return 0
-  }
+  // const getFaucetEventsTime = async (account: string) => {
+  //   const intervalFaucetTime = 12 * 60 * 60 * 1000
+  //   const faucetEvents = await sdk.Resources.getFaucetEvent(faucetObjectId, account, intervalFaucetTime)
+  //   if (faucetEvents && faucetEvents.time) {
+  //     return faucetEvents.time.toNumber()
+  //   }
+  //   return 0
+  // }
 
   const { $notify } = useNuxtApp()
   interface transitionStatusParams {
@@ -621,7 +621,7 @@ export default function () {
 
   return {
     getCoin,
-    getFaucetEventsTime,
+    // getFaucetEventsTime,
     getAccount,
     calculatePriceImpact,
     calculateRates,

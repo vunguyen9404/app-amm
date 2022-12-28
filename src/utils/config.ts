@@ -1,4 +1,4 @@
-const env = 'pre'
+const env = 'pro'
 
 // const platform = localStorage.getItem('chainName') || 'Aptos'
 // const platform = 'Aptos'
@@ -12,9 +12,9 @@ const config = {
       api: 'https://api.cetus.zone'
     },
     Sui: {
-      liquidswapDeployer: '0xda213317dfb64bd156efd6e4405045cf2ac29447',
-      globalPauseStatusObjectId: '0x418a6a2b4665aa704b9180319e5bba880ed9aa06',
-      faucetObjectId: '0x69f1910db3c0c66aaa9cfee728ea9501ae10b247',
+      liquidswapDeployer: '0xb0a138f5867a160b2497c7d0045bc61a3aa98f5a',
+      globalPauseStatusObjectId: '0xc6aa577a65e51a940000585866a455614e5bb03b',
+      faucetObjectId: '0xd0551ff9c19daecd1ec81f2936a339459b6c20e',
       // rpcUrl: 'https://fullnode.testnet.sui.io',
       rpcUrl: 'https://fullnode.devnet.sui.io',
       explorerUrl: 'https://explorer.sui.io/',
@@ -31,9 +31,9 @@ const config = {
       api: ' https://pre-api.devcetus.com'
     },
     Sui: {
-      liquidswapDeployer: '0xda213317dfb64bd156efd6e4405045cf2ac29447',
-      globalPauseStatusObjectId: '0x418a6a2b4665aa704b9180319e5bba880ed9aa06',
-      faucetObjectId: '0x69f1910db3c0c66aaa9cfee728ea9501ae10b247',
+      liquidswapDeployer: '0xb0a138f5867a160b2497c7d0045bc61a3aa98f5a',
+      globalPauseStatusObjectId: '0xc6aa577a65e51a940000585866a455614e5bb03b',
+      faucetObjectId: '0xd0551ff9c19daecd1ec81f2936a339459b6c20e',
       // rpcUrl: 'https://fullnode.testnet.sui.io',
       rpcUrl: 'https://fullnode.devnet.sui.io',
       explorerUrl: 'https://explorer.sui.io/',
@@ -50,11 +50,11 @@ const config = {
       api: 'https://api.devcetus.com'
     },
     Sui: {
-      liquidswapDeployer: '0xda213317dfb64bd156efd6e4405045cf2ac29447',
-      globalPauseStatusObjectId: '0x418a6a2b4665aa704b9180319e5bba880ed9aa06',
-      faucetObjectId: '0x69f1910db3c0c66aaa9cfee728ea9501ae10b247',
+      liquidswapDeployer: '0xb0a138f5867a160b2497c7d0045bc61a3aa98f5a',
+      globalPauseStatusObjectId: '0xc6aa577a65e51a940000585866a455614e5bb03b',
+      faucetObjectId: '0xd0551ff9c19daecd1ec81f2936a339459b6c20e',
       // rpcUrl: 'https://fullnode.testnet.sui.io',
-      rpcUrl: 'https://fullnode.devnet.sui.io',
+      rpcUrl: 'https://fullnode.devnet.sui.io:443',
       explorerUrl: 'https://explorer.sui.io/',
       network: 'devnet',
       api: 'https://api.devcetus.com'
@@ -69,9 +69,9 @@ const config = {
       api: 'https://api.devcetus.com'
     },
     Sui: {
-      liquidswapDeployer: '0x2b8f54bf724fa62789299569210d6c94758dd636',
-      globalPauseStatusObjectId: '0x877cd08c02a2faa110a020f4f203304b114d76d2',
-      faucetObjectId: '0x61df0e8caaf7b241d137fdc97906e3ca6bd68cca',
+      liquidswapDeployer: '0xb0a138f5867a160b2497c7d0045bc61a3aa98f5a',
+      globalPauseStatusObjectId: '0xc6aa577a65e51a940000585866a455614e5bb03b',
+      faucetObjectId: '0xd0551ff9c19daecd1ec81f2936a339459b6c20e',
       rpcUrl: 'https://fullnode.testnet.sui.io',
       explorerUrl: 'https://explorer.sui.io/',
       network: 'testnet',

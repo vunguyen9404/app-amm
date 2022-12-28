@@ -169,12 +169,12 @@ export default defineComponent({
         iconName: 'Fewcha',
         icon: 'https://miro.medium.com/fit/c/176/176/1*a0WaY-q7gjCRiuryRG6TkQ.png'
       },
-      HyperPay: {
-        name: 'HyperPay',
-        url: 'https://www.hyperpay.io/',
-        iconName: 'hyperpay',
-        icon: ''
-      },
+      // HyperPay: {
+      //   name: 'HyperPay',
+      //   url: 'https://www.hyperpay.io/',
+      //   iconName: 'hyperpay',
+      //   icon: ''
+      // },
       Coin98: {
         name: 'Coin98',
         url: 'https://chrome.google.com/webstore/detail/coin98-wallet/aeachknmefphepccionboohckonoeemg',
@@ -229,6 +229,12 @@ export default defineComponent({
         url: 'https://chrome.google.com/webstore/detail/openblock-bridge/memiokcjdencbponfgbkojkenpdpejhj',
         iconName: 'OpenBlock',
         icon: ''
+      },
+      Trust: {
+        name: 'Trust',
+        url: 'https://trustwallet.com/',
+        iconName: 'Trust',
+        icon: ''
       }
       // Hippo: {
       //   name: 'Hippo',
@@ -255,6 +261,24 @@ export default defineComponent({
         name: 'Martian',
         url: 'https://chrome.google.com/webstore/detail/martian-wallet/efbglgofoippbgcjepnhiblaibcnclgk',
         iconName: 'Martian',
+        icon: ''
+      },
+      // BitKeep: {
+      //   name: 'BitKeep',
+      //   url: 'https://chrome.google.com/webstore/detail/bitkeep-bitcoin-crypto-wa/jiidiaalihmmhddjgbnbgdfflelocpak',
+      //   iconName: 'BitKeep',
+      //   icon: 'https://raw.githubusercontent.com/bitkeepwallet/download/main/logo-png/BitKeep_logo_circle.png'
+      // },
+      // Coin98: {
+      //   name: 'Coin98',
+      //   url: 'https://chrome.google.com/webstore/detail/coin98-wallet/aeachknmefphepccionboohckonoeemg',
+      //   iconName: 'coin98',
+      //   icon: 'https://coin98.s3.ap-southeast-1.amazonaws.com/Coin/c98wallet.png'
+      // },
+      Ethos: {
+        name: 'Ethos',
+        url: 'https://chrome.google.com/webstore/detail/ethos-sui-wallet/mcbigmjiafegjnnogedioegffbooigli',
+        iconName: 'Ethos',
         icon: ''
       }
       // BitKeep: {
@@ -622,7 +646,7 @@ export default defineComponent({
   .transtions {
     display: flex;
     align-items: center;
-    justify-content: center;
+    // justify-content: center;
     flex-direction: column;
     width: 100%;
     background: @cardCenter;
@@ -736,7 +760,7 @@ export default defineComponent({
   }
   .ant-modal-content {
     .ant-modal-body {
-      padding: 0px 16px 20px 16px;
+      padding: 0px 16px 20px 16px !important;
     }
   }
 }

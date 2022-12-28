@@ -110,7 +110,7 @@ export default defineComponent({
       const r = d(lp).div(Math.pow(10, pitem.decimals)).toString()
       return addCommom(r, pitem.decimals)
     }
-    return { indicator, thousands, importIcon, router, toRemove, toAdd, wallet, addCommom, getLpView }
+    return { indicator, thousands, importIcon, router, toRemove, toAdd, wallet, addCommom, getLpView, index }
   }
 })
 </script>

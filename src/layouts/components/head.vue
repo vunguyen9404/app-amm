@@ -191,32 +191,32 @@ export default defineComponent({
     const list = [
       {
         name: t('contactUS.docs'),
-        icon: '#icon-icon-Docs',
+        icon: '#icon-svg-docs',
         link: 'https://cetus-1.gitbook.io/cetus-docs/'
       },
       {
         name: t('contactUS.twitter'),
-        icon: '#icon-icon-twitter',
+        icon: '#icon-svg-twitter',
         link: 'https://twitter.com/CetusProtocol'
       },
       {
         name: t('contactUS.discord'),
-        icon: '#icon-icon-Discord',
+        icon: '#icon-svg-Discord',
         link: 'https://discord.gg/cetusprotocol'
       },
       {
         name: t('contactUS.tgGroup'),
-        icon: '#icon-icon-telegram',
+        icon: '#icon-svg-lark',
         link: 'https://t.me/cetuscommunity'
       },
       {
         name: t('contactUS.tgChannel'),
-        icon: '#icon-icon-TgChannel',
+        icon: '#icon-svg-tg',
         link: 'https://t.me/cetusprotocol'
       },
       {
         name: t('contactUS.medium'),
-        icon: '#icon-icon-medium',
+        icon: '#icon-svg-medium',
         link: 'https://medium.com/@CetusProtocol'
       }
     ]
@@ -227,6 +227,21 @@ export default defineComponent({
     let currentChain = ref(store.value.chainName || 'Aptos')
     const themeStore = useTheme()
     onMounted(() => {
+      const language: any = router?.currentRoute?.value?.query?.language
+      if (language) {
+        changeLang(language)
+      }
+      const swaichChain: any = router?.currentRoute?.value?.query?.swaichChain
+      if (swaichChain == 'aptos') {
+        themeStore.seleteDefaultTheme()
+        walletStore.setCurrentWallet({
+          wallet: wallet.value.aptosCurrentWallet,
+          isConnected: wallet.value.aptosConnected,
+          account: wallet.value.aptosAddress,
+          platform: 'Aptos',
+          icon: wallet.value.aptosWalletIcon
+        })
+      }
       document.addEventListener('click', () => {
         openH5Icon.value = false
         openMore.value = false

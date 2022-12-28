@@ -1,6 +1,7 @@
 import { reactive, ref, computed } from 'vue'
 import { MaybeHexString } from 'aptos'
 import { MartianWalletAdapter as SuiMartianWalletAdapter } from '@martianwallet/sui-wallet-adapter'
+import { TrustWallet } from '@trustwallet/aptos-wallet-adapter'
 import {
   MartianWalletAdapter,
   AptosWalletAdapter,
@@ -19,7 +20,8 @@ import {
   HyperPayWalletAdapter,
   BitKeepSuiWalletAdapter,
   Coin98SuiWalletAdapter,
-  OpenBlockWalletAdapter
+  OpenBlockWalletAdapter,
+  EthosSuiWalletAdapter
 } from '@/wallet'
 import { useWalletStore } from '@/store/wallet'
 import { useIndexStore } from '@/store/index'
@@ -56,7 +58,8 @@ export default function () {
     new BitkeepWalletAdapter(),
     new RiseWalletAdapter(),
     new HyperPayWalletAdapter(),
-    new OpenBlockWalletAdapter()
+    new OpenBlockWalletAdapter(),
+    new TrustWallet()
   ]
 
   const suiWallets = [
@@ -64,7 +67,8 @@ export default function () {
     new SuietWalletAdapter(),
     new SuiMartianWalletAdapter(),
     new BitKeepSuiWalletAdapter(),
-    new Coin98SuiWalletAdapter()
+    new Coin98SuiWalletAdapter(),
+    new EthosSuiWalletAdapter()
   ]
 
   // const wallets: any = computed(() => {
@@ -102,11 +106,17 @@ export default function () {
             }
             isConnected = account ? true : false
           } else {
-            account = currentWallet?.wallet?.publicAccount?.address || ''
-            isConnected = currentWallet?.wallet?.connected
+            if (selectedWallet.name == 'Trust') {
+              const accountInfo = await selectedWallet.account()
+              account = accountInfo.address || ''
+              isConnected = true
+            } else {
+              account = currentWallet?.wallet?.publicAccount?.address || ''
+              isConnected = currentWallet?.wallet?.connected
+            }
           }
 
-          if (selectedWallet && selectedWallet.network && selectedWallet.network.name) {
+          if (selectedWallet && selectedWallet.network && selectedWallet.network.name && selectedWallet.name !== 'Trust') {
             walletStore.setNetwork(selectedWallet.network.name)
           }
           walletStore.setCurrentWallet({
@@ -126,7 +136,7 @@ export default function () {
             class: 'ant-notification-copy'
           })
         } catch (error: any) {
-          if (error.name === 'WalletNotReadyError') {
+          if (error.name === 'WalletNotReadyError' || (error?.includes('Trust') && !(window as any)?.trustwallet)) {
             const installUrl = selectedWallet.url
             const description = [
               'Please install ',
@@ -135,7 +145,7 @@ export default function () {
             ]
             $notify.error({
               class: 'ant-notification-copy ant-notification-error',
-              message: h('div', { class: 'notification-title' }, [h('span', { innerHTML: error.name }, null)]),
+              message: h('div', { class: 'notification-title' }, [h('span', { innerHTML: error.name || 'Rejected' }, null)]),
               description: h('div', description),
               duration: 4.5,
               icon: h('svg', { class: { icon: true }, 'aria-hidden': true }, [h('use', { 'xlink:href': '#icon-a-icon-Shutdown' })])
@@ -144,7 +154,7 @@ export default function () {
           }
           $notify.error({
             class: 'ant-notification-copy ant-notification-error',
-            message: h('div', { class: 'notification-title' }, [h('span', { innerHTML: error.name }, null)]),
+            message: h('div', { class: 'notification-title' }, [h('span', { innerHTML: error.name || 'Rejected' }, null)]),
             description: 'Connect Wallet Failed',
             duration: 4.5,
             icon: h('svg', { class: { icon: true }, 'aria-hidden': true }, [h('use', { 'xlink:href': '#icon-a-icon-Shutdown' })])

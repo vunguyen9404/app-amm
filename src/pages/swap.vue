@@ -285,7 +285,7 @@ export default defineComponent({
     watch(
       () => [liquidity.value.tokens, liquidity.value.lpTokens],
       ([newTokens, newLpTokens]) => {
-        if (newTokens && newLpTokens && !checkNullObj(newTokens)) {
+        if (newTokens && newLpTokens && !checkNullObj(newTokens) && !checkNullObj(newLpTokens)) {
           tokens.value = newTokens
           const lpTokenList: any = Object.values(newLpTokens)
           fromCoin.value = newTokens[lpTokenList[0].coinA.symbol]
