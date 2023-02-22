@@ -12,9 +12,9 @@
       <p class="waiting-text">
         <a
           :href="
-            chainName === 'Sui'
-              ? `https://explorer.sui.io/transaction/${encodeURIComponent(store.currentTransactionTxid)}?network=${config.network}`
-              : `https://explorer.aptoslabs.com/txn/${store.currentTransactionTxid}?network=${config.network}`
+            chainName === 'Aptos'
+              ? `https://explorer.aptoslabs.com/txn/${store.currentTransactionTxid}?network=${config.network}`
+              : `https://explorer.sui.io/transaction/${encodeURIComponent(store.currentTransactionTxid)}?network=${config.network}`
           "
           target="_blank"
         >

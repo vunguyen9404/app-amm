@@ -57,7 +57,7 @@ export default defineComponent({
     const requestError = ref(false)
 
     const list = computed(() => {
-      if (storeCounter.value.chainName === 'Sui') {
+      if (storeCounter.value.chainName !== 'Aptos') {
         return [
           {
             name: 'USDT',
@@ -134,11 +134,13 @@ export default defineComponent({
         try {
           const payload = contractStore.getCoin('all')
           let tx
-          if (storeCounter.value.chainName !== 'Sui') {
+          if (storeCounter.value.chainName === 'Aptos') {
             tx = await wallet.value.currentWallet.signAndSubmitTransaction(payload)
           } else {
             const res = await wallet.value.currentWallet.signAndExecuteTransaction(payload)
+            console.log('1220###request coin###res###', res)
             tx = contractStore.handleTx(res)
+            console.log('1220###request coin###tx###', tx)
           }
 
           if (tx) {
@@ -156,7 +158,7 @@ export default defineComponent({
             }
             contractStore.showTransitionPending(params)
             const transitionStatus = await contractStore.watchTransaction(params)
-            if (storeCounter.value.chainName !== 'Sui') {
+            if (storeCounter.value.chainName === 'Aptos') {
               getTimes(wallet.value.address)
               if (transitionStatus) {
                 setTimeout(() => {
@@ -185,6 +187,7 @@ export default defineComponent({
           }
           loading.value = false
         } catch (error) {
+          console.log('1220####request coin###error####', error)
           loading.value = false
           setIsShowWaiting(false)
           // setIsShowRejected(true)

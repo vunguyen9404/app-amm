@@ -57,7 +57,7 @@
           :input-value="addCommom(fromCoinAmount, fromCoin.decimals)"
           :coin-name="fromCoin ? fromCoin.symbol : null"
           :remove-balance="addCommom(currentLpInfo.myCoinXAmount, fromCoin.decimals) || null"
-          :coin-icon="fromCoin ? fromCoin.icon : ''"
+          :coin-icon="fromCoin ? fromCoin.logoURI : ''"
           :is-remove="true"
           :swap-direction="'From'"
           @onMax="maxBtnSelect('fromCoin')"
@@ -81,7 +81,7 @@
           :remove-balance="addCommom(currentLpInfo.myCoinYAmount, toCoin.decimals) || null"
           :swap-direction="'To'"
           :is-remove="true"
-          :coin-icon="toCoin ? toCoin.icon : ''"
+          :coin-icon="toCoin ? toCoin.logoURI : ''"
           @onMax="maxBtnSelect('toCoin')"
           @onInput="amount => (toCoinAmount = amount)"
           @onFocus="
@@ -99,13 +99,16 @@
         <div class="induction-value induction-value-change" @click="rateChange = !rateChange">
           <span v-if="!rateChange">
             1 {{ fromCoin && fromCoin.symbol }} ≈
-            <span v-if="currentLpInfo.price">{{ fixD(currentLpInfo.price, 2) }}</span>
+            <span v-if="currentLpInfo.price">{{ decimalFormat(currentLpInfo.price, toCoin.decimals) }}</span>
             <template v-else>
               <a-spin :indicator="indicator" />
             </template>
             {{ toCoin && toCoin.symbol }}
           </span>
-          <span v-else>1 {{ toCoin && toCoin.symbol }} ≈ {{ fixD(1 / currentLpInfo.price, 2) }} {{ fromCoin && fromCoin.symbol }}</span>
+          <span v-else
+            >1 {{ toCoin && toCoin.symbol }} ≈ {{ decimalFormat(String(1 / currentLpInfo.price), fromCoin.decimals) }}
+            {{ fromCoin && fromCoin.symbol }}</span
+          >
           <!-- <img :src="importIcon`/image/icon-change@2x.png`" alt="" /> -->
           <svg class="icon-change" aria-hidden="true">
             <use xlink:href="#icon-a-icon-change2" />
@@ -139,8 +142,9 @@
       <div class="liquidityAsset">
         <div class="item">
           <div v-if="fromCoin" class="left">
-            <img :src="fromCoin.icon || importIcon(`/image/coins/${fromCoin.symbol.toLowerCase()}.png`)" alt="" />
+            <img :src="fromCoin.logoURI || importIcon(`/image/coins/${fromCoin.symbol.toLowerCase()}.png`)" alt="" />
             <span>{{ fromCoin.symbol }}</span>
+            <span class="coin-name">{{ fromCoin?.name }}</span>
           </div>
           <div v-if="currentLpInfo.myCoinXAmount" class="right">{{ addCommom(currentLpInfo.myCoinXAmount, fromCoin.decimals) }}</div>
           <template v-else>
@@ -149,8 +153,9 @@
         </div>
         <div class="item">
           <div v-if="toCoin" class="left">
-            <img :src="toCoin.icon || importIcon(`/image/coins/${toCoin.symbol.toLowerCase()}.png`)" alt="" />
+            <img :src="toCoin.logoURI || importIcon(`/image/coins/${toCoin.symbol.toLowerCase()}.png`)" alt="" />
             <span>{{ toCoin.symbol }}</span>
+            <span class="coin-name">{{ toCoin?.name }}</span>
           </div>
           <div v-if="currentLpInfo.myCoinYAmount" class="right">{{ addCommom(currentLpInfo.myCoinYAmount, toCoin.decimals) }}</div>
           <template v-else>
@@ -182,6 +187,20 @@
       :loading="loading"
       @on-close="isShowRemoveModal = false"
       @to-remove="toRemove"
+    />
+    <RemoveDeposit
+      v-if="isRemoveSuccessModal && isCmmHavePool"
+      :from-coin="currentLpInfo.coinA"
+      :to-coin="currentLpInfo.coinB"
+      :fee="fee"
+      @on-close="
+        () => {
+          isRemoveSuccessModal = false
+          if (Number(sliderVal) == 100) {
+            router.push('/pools')
+          }
+        }
+      "
     />
   </div>
 </template>
@@ -227,6 +246,8 @@ export default defineComponent({
 
     let isShowSwapSetting = ref(false)
     let isShowRemoveModal = ref(false)
+    let isRemoveSuccessModal = ref(false)
+    let isCmmHavePool = ref(false)
     let rateChange = ref(false)
     let change = ref(false)
     const refresh = ref(false)
@@ -367,12 +388,14 @@ export default defineComponent({
         }
       }, 500)
     )
+    const fee = ref('')
     watch(currentLpInfo, () => {
       if (currentLpInfo.value) {
-        const result = liquidityStore.cmmLpTokens.filter((ele: any) => {
+        const result: any = liquidityStore.cmmLpTokens.filter((ele: any) => {
           return ele.coinA.address == currentLpInfo.value.coinA.address && ele.coinB.address == currentLpInfo.value.coinB.address
         })
         if (result.length > 0) {
+          fee.value = result[0].fee
           isCmmHavePool.value = true
         }
         getAmount(
@@ -446,7 +469,7 @@ export default defineComponent({
           const payload = await contractStore.removeLiquidityTransactionPayload(params.value)
 
           let tx
-          if (index.value.chainName === 'Sui') {
+          if (index.value.chainName !== 'Aptos') {
             const res = await wallet.value.currentWallet.signAndExecuteTransaction(payload)
             tx = contractStore.handleTx(res)
           } else {
@@ -472,14 +495,19 @@ export default defineComponent({
             contractStore.showTransitionPending(params)
             const transitionStatus = await contractStore.watchTransaction(params)
             if (transitionStatus) {
-              setTimeout(() => {
-                liquidityStore.setMyLplist(wallet.value.address)
-              }, 3000)
-              setTimeout(() => {
-                liquidityStore.setMyLplist(wallet.value.address)
-              }, 6000)
-              if (Number(sliderVal.value) == 100) {
-                router.push('/pools')
+              if (isCmmHavePool.value) {
+                setIsShowSuccess(false)
+                isRemoveSuccessModal.value = true
+              } else {
+                if (Number(sliderVal.value) == 100) {
+                  router.push('/pools')
+                }
+                setTimeout(() => {
+                  liquidityStore.setMyLplist(wallet.value.address)
+                }, 3000)
+                setTimeout(() => {
+                  liquidityStore.setMyLplist(wallet.value.address)
+                }, 6000)
               }
             }
           } else {
@@ -537,10 +565,14 @@ export default defineComponent({
     )
 
     return {
+      fee,
+      isRemoveSuccessModal,
+      isCmmHavePool,
       loading,
       indicator,
       addCommom,
       fixD,
+      decimalFormat,
       prettyAmount,
       liquidity,
       clickExchange,

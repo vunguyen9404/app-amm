@@ -56,7 +56,7 @@ export default function () {
     return indexStore
   })
 
-  const suiContract = useSuiContract()
+  const suiContract = useSuiContract(index.value.chainName)
 
   const getCoinStores = async (account: string) => {
     try {
@@ -83,7 +83,8 @@ export default function () {
 
   // get user wallet account
   const getAccount = async (account: string) => {
-    if (index.value.chainName === 'Sui') {
+    if (index.value.chainName !== 'Aptos') {
+      const suiContract = useSuiContract(index.value.chainName)
       suiContract.getAccount(account)
       return
     }
@@ -118,7 +119,8 @@ export default function () {
     chainName?: string
   }
   const showTransitionPending = (params: transitionStatusParams) => {
-    if (index.value.chainName === 'Sui') {
+    if (index.value.chainName !== 'Aptos') {
+      const suiContract = useSuiContract(index.value.chainName)
       suiContract.showTransitionPending(params)
       return
     }
@@ -148,7 +150,8 @@ export default function () {
   }
 
   const showTransitionSuccess = (params: transitionStatusParams) => {
-    if (index.value.chainName === 'Sui') {
+    if (index.value.chainName !== 'Aptos') {
+      const suiContract = useSuiContract(index.value.chainName)
       suiContract.showTransitionSuccess(params)
       return
     }
@@ -173,7 +176,8 @@ export default function () {
   }
 
   const showTransitionError = (title: string) => {
-    if (index.value.chainName === 'Sui') {
+    if (index.value.chainName !== 'Aptos') {
+      const suiContract = useSuiContract(index.value.chainName)
       suiContract.showTransitionError(title)
       return
     }
@@ -187,7 +191,8 @@ export default function () {
   }
   // Monitor hash status
   const watchTransaction = async (params: transitionStatusParams) => {
-    if (index.value.chainName === 'Sui') {
+    if (index.value.chainName !== 'Aptos') {
+      const suiContract = useSuiContract(index.value.chainName)
       const res = await suiContract.watchTransaction(params)
       const transactionsInfo = {
         ...params,
@@ -227,7 +232,8 @@ export default function () {
   }
   // Obtain LP information, coinX, coinY are passed in order of LP
   const getLiquidityPoolResource = async (params: getLiquidityPoolResourceParams) => {
-    if (index.value.chainName === 'Sui') {
+    if (index.value.chainName !== 'Aptos') {
+      const suiContract = useSuiContract(index.value.chainName)
       const suiRes = suiContract.getLiquidityPoolResource(params)
       return suiRes
     }
@@ -251,7 +257,8 @@ export default function () {
 
   // Get price
   const getPrice = async (params: getLiquidityPoolResourceParams) => {
-    if (index.value.chainName === 'Sui') {
+    if (index.value.chainName !== 'Aptos') {
+      const suiContract = useSuiContract(index.value.chainName)
       const suiRes = suiContract.getPrice(params)
       return suiRes
     }
@@ -267,7 +274,8 @@ export default function () {
   }
   // Get Share of Pool (Add Liquidity)
   const getShareOfPool = async (params: getShareOfPoolParams) => {
-    if (index.value.chainName === 'Sui') {
+    if (index.value.chainName !== 'Aptos') {
+      const suiContract = useSuiContract(index.value.chainName)
       const res = suiContract.getShareOfPool(params)
       return res
     }
@@ -285,8 +293,9 @@ export default function () {
   }
 
   const getMyLpList = async (account: string, poolObjectIdList: any = []) => {
-    if (index.value.chainName === 'Sui') {
-      const res = suiContract.getMyLpList(account, poolObjectIdList)
+    if (index.value.chainName !== 'Aptos') {
+      const suiContract = useSuiContract(index.value.chainName)
+      const res = await suiContract.getMyLpList(account, poolObjectIdList)
       return res
     }
     const newList: any = []
@@ -390,7 +399,8 @@ export default function () {
 
   // Precomputed
   const calculateRates = async (params: calculateRatesParams) => {
-    if (index.value.chainName === 'Sui') {
+    if (index.value.chainName !== 'Aptos') {
+      const suiContract = useSuiContract(index.value.chainName)
       const suiRes = await suiContract.calculateRates(params)
       return suiRes
     }
@@ -424,7 +434,8 @@ export default function () {
 
   // calculate price impact
   const calculatePriceImpact = async (params: calculateImpactParams) => {
-    if (index.value.chainName === 'Sui') {
+    if (index.value.chainName !== 'Aptos') {
+      const suiContract = useSuiContract(index.value.chainName)
       const suiRes = await suiContract.calculatePriceImpact(params)
       return suiRes
     }
@@ -460,7 +471,8 @@ export default function () {
   }
 
   const createSwapTransactionPayload = async (params: swapTransactionParams) => {
-    if (index.value.chainName === 'Sui') {
+    if (index.value.chainName !== 'Aptos') {
+      const suiContract = useSuiContract(index.value.chainName)
       const suiRes = suiContract.createSwapTransactionPayload(params)
       return suiRes
     }
@@ -480,43 +492,7 @@ export default function () {
       interactiveToken: params.interactiveToken
     })
     const toAmountNew = convertToDecimals(rate, params.interactiveToken === 'from' ? params.toToken.decimals : params.fromToken.decimals)
-    console.log('testCreateSwapTransactionPayload###interactiveToken###', interactiveToken)
-    console.log('testCreateSwapTransactionPayload###params.interactiveToken####', params.interactiveToken)
 
-    // const v1 = d(1000000).mul(9999)
-    // const v2 = d(5148961).mul(10000).plus(v1)
-    // const r = v1.mul(257159462).div(v2)
-    // console.log('rrrrrrr@@@@', r.toString())
-
-    console.log(
-      'testCreateSwapTransactionPayload####params2222###',
-      {
-        fromToken: params.fromToken.address,
-        toToken: params.toToken.address,
-        // fromAmount: params.interactiveToken === 'from' ? fromAmount.toString() : toAmountNew.toString(),
-        // toAmount: params.interactiveToken === 'from' ? toAmountNew.toString() : toAmount.toString(),
-        fromAmount:
-          params.interactiveToken === 'from'
-            ? fromAmount.toString()
-            : fixD(toAmountNew.plus(toAmountNew.mul(params.slippage)).toString(), 0),
-        // eslint-disable-next-line max-len
-        toAmount:
-          params.interactiveToken === 'from'
-            ? fixD(toAmountNew.minus(toAmountNew.mul(params.slippage)).toString(), 0)
-            : toAmount.toString(),
-        interactiveToken: params.interactiveToken,
-        slippage: params.slippage
-      },
-      interactiveToken,
-      'dircetion###',
-      direction,
-      'fromAmount###',
-      fromAmount.toString(),
-      'toAmount###',
-      toAmount.toString(),
-      'toAmountNew####',
-      toAmountNew.toString()
-    )
     const result = await sdk.Swap.createSwapTransactionPayload({
       fromToken: params.fromToken.address,
       toToken: params.toToken.address,
@@ -561,7 +537,8 @@ export default function () {
   }
   // Add liquidity pre-calculation (note: coinX, coinY are passed in order of input)
   const getLiquidityAndCoinYByCoinX = async (params: getLiquidityAndCoinYByCoinXParams) => {
-    if (index.value.chainName === 'Sui') {
+    if (index.value.chainName !== 'Aptos') {
+      const suiContract = useSuiContract(index.value.chainName)
       const suiRes = await suiContract.getLiquidityAndCoinYByCoinX(params)
       return suiRes
     }
@@ -593,7 +570,8 @@ export default function () {
 
   // Obtain coinX, coinY quantity through liquidity
   const getCoinXYForLiquidity = async (params: getCoinXForLiquidityParams) => {
-    if (index.value.chainName === 'Sui') {
+    if (index.value.chainName !== 'Aptos') {
+      const suiContract = useSuiContract(index.value.chainName)
       const suiRes = await suiContract.getCoinXYForLiquidity(params)
       return suiRes
     }
@@ -621,7 +599,8 @@ export default function () {
   }
   // Get Add Liquidity Payload
   const createAddLiquidityTransactionPayload = async (params: addLiquidityParams) => {
-    if (index.value.chainName === 'Sui') {
+    if (index.value.chainName !== 'Aptos') {
+      const suiContract = useSuiContract(index.value.chainName)
       const suiRes = await suiContract.createAddLiquidityTransactionPayload(params)
       return suiRes
     }
@@ -656,7 +635,8 @@ export default function () {
   }
   // Get Remove Liquidity Payload
   const removeLiquidityTransactionPayload = async (params: removeLiquidityParams) => {
-    if (index.value.chainName === 'Sui') {
+    if (index.value.chainName !== 'Aptos') {
+      const suiContract = useSuiContract(index.value.chainName)
       const suiRes = await suiContract.removeLiquidityTransactionPayload(params)
       return suiRes
     }
@@ -672,7 +652,8 @@ export default function () {
 
   const getCoin = (coin: string) => {
     let payload
-    if (index.value.chainName === 'Sui') {
+    if (index.value.chainName !== 'Aptos') {
+      const suiContract = useSuiContract(index.value.chainName)
       payload = suiContract.getCoin()
     } else {
       if (coin === 'all') {
@@ -714,7 +695,8 @@ export default function () {
   }
 
   const handleTx = (res: any) => {
-    if (index.value.chainName === 'Sui') {
+    if (index.value.chainName !== 'Aptos') {
+      const suiContract = useSuiContract(index.value.chainName)
       return suiContract.handleTx(res)
     }
     return res

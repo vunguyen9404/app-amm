@@ -6,11 +6,11 @@
       <a-button @click="router.push('/pools-liquidity-add')">Add Liquidity</a-button>
     </div> -->
 
-    <!-- <a href="https://cetus-cmm-app-devnet.netlify.app/pools-list">
+    <a v-if="chainName == 'Aptos' && config" :href="`${config.cmmSite}/pools?language=${languageValue}`">
       <svg class="icon cmm-icon" aria-hidden="true">
         <use xlink:href="#icon-icon-back" />
       </svg>
-    </a> -->
+    </a>
     <div class="position-title">
       <div>
         {{ $t('menu.pools') }}
@@ -20,7 +20,7 @@
         <use xlink:href="#icon-icon-refresh" />
       </svg>
     </div>
-    <!-- <a href="https://cetus-cmm-app-devnet.netlify.app/pools-list" class="migrate-earn"></a> -->
+    <a v-if="chainName == 'Aptos' && config" :href="`${config.cmmSite}/pools`" class="migrate-earn"></a>
     <!-- <div class="total-tvl">
       <i>TVL</i>
       <span v-if="totalTVL">$ {{ addCommom(totalTVL, 2) }}</span>
@@ -36,7 +36,7 @@
       />
       <div class="search-icon" @click="updateLpList(searchKey)"></div>
     </div>
-    <div v-if="chainName !== 'Sui'" class="tab-list">
+    <div v-if="chainName === 'Aptos'" class="tab-list">
       <div
         v-for="(item, index) in tabList"
         :key="index"
@@ -72,10 +72,11 @@ import { addCommom, checkNullObj } from '@/utils'
 import { LoadingOutlined } from '@ant-design/icons-vue'
 import { useI18n } from 'vue-i18n'
 import useContract from '@/composables/useContract'
+import configure from '@/utils/config'
 
 export default defineComponent({
   setup() {
-    const { t } = useI18n()
+    const { t, locale } = useI18n()
     const tabList = ref([t('tab.all'), t('tab.layerZero'), t('tab.wormhole'), t('tab.celer')])
     const currentTab = ref(t('tab.all'))
     const tabKey = ref('')
@@ -93,6 +94,7 @@ export default defineComponent({
     const searchKey = ref(null)
     const totalTVL = ref(0)
     const liquidityStore = useLiquidityStore()
+    const languageValue = ref('')
     const liquidity = computed(() => {
       return liquidityStore
     })
@@ -179,7 +181,7 @@ export default defineComponent({
     }
 
     watch(
-      () => [liquidity.value.lpTokens, chainName.value],
+      () => [liquidity.value.lpTokens, chainName.value, wallet.value.address],
       ([newLpTokens, newChainName]) => {
         if (newLpTokens && !checkNullObj(newLpTokens)) {
           const newList: any = Object.values(newLpTokens)
@@ -213,17 +215,37 @@ export default defineComponent({
 
     let getCountTimer: any = null
     onMounted(() => {
+      const language: any = router?.currentRoute?.value?.query?.language
+      if (language) {
+        changeLang(language)
+      }
+      languageValue.value = locale.value
       getCountTimer = window.setInterval(() => {
         liquidityStore.setMyLplist(wallet.value.address || '')
         counter.getStatsData()
       }, 120000)
     })
+    watch(
+      () => indexStore.lang,
+      newValue => {
+        languageValue.value = newValue
+      }
+    )
+    const { setLang } = counter
+    const changeLang = value => {
+      setLang(value)
+      locale.value = value
+    }
     onUnmounted(() => {
       window.clearInterval(getCountTimer)
       clearInterval(getCountTimer)
     })
 
+    const config = computed(() => {
+      return configure[indexStore.chainName]
+    })
     return {
+      config,
       indexStore,
       currentTab,
       tabList,
@@ -239,7 +261,8 @@ export default defineComponent({
       updateLpList,
       totalTVL,
       addCommom,
-      chainName
+      chainName,
+      languageValue
     }
   }
 })
@@ -515,7 +538,9 @@ export default defineComponent({
       }
     }
     .migrate-earn {
-      height: 70px;
+      height: 90px;
+      background: url('../assets/image/migrate-earn-h5.png');
+      background-size: 100% 100%;
     }
     .position-list {
       width: 100%;

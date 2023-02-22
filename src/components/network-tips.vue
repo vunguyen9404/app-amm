@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isShowTips && chainName !== 'Sui' && aptosConnected" class="network-tips">
+  <div v-if="isShowTips && chainName === 'Aptos' && aptosConnected" class="network-tips">
     <svg class="icon modal-icon-close" aria-hidden="true">
       <use xlink:href="#icon-a-icon-Shutdown"></use>
     </svg>

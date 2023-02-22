@@ -25,7 +25,7 @@
         </svg>
       </div>
 
-      <div v-if="chainName !== 'Sui'" class="tab-list">
+      <div v-if="chainName === 'Aptos'" class="tab-list">
         <div
           v-for="(item, index) in tabList"
           :key="index"
@@ -68,7 +68,7 @@
           <div v-else class="no-data">
             <img v-if="store.theme == 'default'" src="../assets/image/img-no-Positions@2x.png" />
             <img v-else src="../assets/sui-image/img-no-Positions@2x.png" />
-            <p>{{ $t('common.noData') }}</p>
+            <p>{{ 'No tokens found' }}</p>
           </div>
         </vue-scroll>
       </div>
@@ -179,8 +179,16 @@ export default defineComponent({
       for (const symbol of Object.keys(tokensObj)) {
         let tokenInfo: any = cloneDeep(tokensObj[symbol])
 
+        if (tokenInfo.symbol.toUpperCase() === 'SUI' && chainName.value !== 'Aptos') {
+          tokenInfo.sortToken = true
+        } else {
+          tokenInfo.sortToken = false
+        }
+
         if (props.lastSelectCoin && tokenInfo && tokenInfo.symbol === props.lastSelectCoin) {
           tokenInfo.unusable = true
+        } else {
+          tokenInfo.unusable = false
         }
         const balance =
           (wallet.value.assets &&
@@ -190,17 +198,12 @@ export default defineComponent({
         tokenInfo = { ...tokenInfo, balance }
         newTokens.push(tokenInfo)
       }
-      const sortResult = newTokens.sort((a, b) => b.balance - a.balance)
-      // tokenList.value = sortResult
-      // if (keyword) {
-      //   const result = newTokens.filter(item => {
-      //     return (
-      //       item.symbol.toLowerCase().indexOf(keyword.toLowerCase()) !== -1 ||
-      //       item.address.toLowerCase().indexOf(keyword.toLowerCase()) !== -1
-      //     )
-      //   })
-      //   tokenList.value = result
-      // }
+      let sortResult: any
+      if (wallet.value.address) {
+        sortResult = newTokens.sort((a, b) => a.symbol.charCodeAt(0) - b.symbol.charCodeAt(0)).sort((a, b) => b.balance - a.balance)
+      } else {
+        sortResult = newTokens.sort((a, b) => a.symbol.charCodeAt(0) - b.symbol.charCodeAt(0))
+      }
       if (keyword) {
         const result = sortResult.filter(item => {
           return (
@@ -216,9 +219,9 @@ export default defineComponent({
                   ele.name.toLowerCase().indexOf('ce') == -1
               : ele.name.toLowerCase().includes(tabKey.value.toLowerCase())
           })
-          tokenList.value = newResult
+          tokenList.value = newResult.sort((a, b) => b.sortToken - a.sortToken).sort((a, b) => b.unusable - a.unusable)
         } else {
-          tokenList.value = result
+          tokenList.value = result.sort((a, b) => b.sortToken - a.sortToken).sort((a, b) => b.unusable - a.unusable)
         }
       } else {
         if (currentTab.value) {
@@ -229,7 +232,9 @@ export default defineComponent({
                   ele.name.toLowerCase().indexOf('ce') == -1
               : ele.name.toLowerCase().includes(tabKey.value.toLowerCase())
           })
-          tokenList.value = newResult
+          tokenList.value = newResult.sort((a, b) => b.sortToken - a.sortToken).sort((a, b) => b.unusable - a.unusable)
+        } else {
+          tokenList.value = sortResult.sort((a, b) => b.sortToken - a.sortToken).sort((a, b) => b.unusable - a.unusable)
         }
       }
     }
@@ -252,16 +257,14 @@ export default defineComponent({
 @import '../assets/css/base.less';
 .coin-select-modal {
   .search-input {
-    padding: 0 16px;
     width: 100%;
     height: 40px;
     position: relative;
+    padding: 0 16px;
     margin-top: 16px;
     input {
       width: 100%;
       height: 100%;
-      // background: transparent;
-      // border-radius: 10px;
       background: @cardEnter;
       font-size: 14px;
       border: none;
@@ -302,15 +305,14 @@ export default defineComponent({
       width: 25%;
       height: 40px;
       box-sizing: border-box;
-      // margin-top: 8px;
       border: 1px solid #333;
-      background: #121212;
+      background: @backgroundColor;
       text-align: center;
       line-height: 38px;
       font-size: 12px;
       color: @textDefault;
       border-right: 1px solid transparent;
-      // border-left: 1px solid transparent;
+      cursor: pointer;
       &:nth-last-child(1) {
         border-right: 1px solid #333;
       }
@@ -334,38 +336,29 @@ export default defineComponent({
     margin: 16px 0 0px;
   }
   .coin-list-box {
-    // max-height: 282px;
-    // max-height: 310px;
     height: 265px;
     overflow-y: auto;
-    // padding:0 16px ;
-    // margin-top: 20px;
     .coin-list {
       width: 100%;
       min-height: 200px;
       padding: 0;
-      // background: red;
       li {
         &:nth-child(2n) {
-          background: #121212 !important;
+          background: @backgroundColor !important;
         }
         display: flex;
         height: 60px;
-        // margin-top: 10px;
         align-items: center;
         justify-content: space-between;
         font-size: 14px;
         color: @textActive;
-        background: #161616;
         cursor: pointer;
+        background: @backgroundColor;
         padding: 0 16px;
         &.active,
         &:hover {
-          // background: rgba(255, 255, 255, 0.1);
-          // border-radius: 10px;
           background: @cardTopTrans !important;
           border-radius: 0px;
-          // border: 1px solid #1b1b1b;
         }
         .left {
           display: flex;
@@ -375,11 +368,8 @@ export default defineComponent({
             height: 30px;
             border-radius: 100%;
           }
-          // span {
-          //   margin-left: 10px;
-          // }
           .name-box {
-            margin-left: 12px;
+            margin-left: 8px;
             span {
               font-size: 14px;
               color: @textActive;
@@ -391,7 +381,7 @@ export default defineComponent({
             }
             p {
               font-size: 12px;
-              color: rgba(#fff, 0.5);
+              color: @textDefault;
             }
           }
         }
@@ -406,7 +396,10 @@ export default defineComponent({
           cursor: not-allowed;
           .left {
             img {
-              filter: grayscale(1);
+              filter: brightness(0.5);
+            }
+            span {
+              color: rgba(#fff, 0.5);
             }
           }
         }

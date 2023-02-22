@@ -30,7 +30,7 @@
             :coin-name="fromCoin ? fromCoin.symbol : ''"
             :coin-address="fromCoin ? fromCoin.address : ''"
             :coin-decimals="fromCoin ? fromCoin.decimals : 6"
-            :coin-icon="fromCoin ? fromCoin.icon : ''"
+            :coin-icon="fromCoin ? fromCoin.logoURI : ''"
             :swap-direction="'From'"
             @onMax="maxBtnSelect"
             @onInput="amount => (fromCoinAmount = amount)"
@@ -50,7 +50,7 @@
             :coin-address="toCoin ? toCoin.address : ''"
             :coin-decimals="toCoin ? toCoin.decimals : 6"
             :swap-direction="'To'"
-            :coin-icon="toCoin ? toCoin.icon : ''"
+            :coin-icon="toCoin ? toCoin.logoURI : ''"
             @onMax="maxBtnSelect"
             @onInput="amount => (toCoinAmount = amount)"
             @onFocus="
@@ -106,6 +106,7 @@
             !Number(fromCoinAmount) ||
             !Number(toCoinAmount) ||
             swapBtnText == $t('button.poolNotFound') ||
+            !assets[fromCoin.address] ||
             Number(fromCoinAmount) > prettyAmount(assets[fromCoin.address].balance, fromCoin.decimals) ||
             Number(toCoinAmount) > prettyAmount(assets[toCoin.address].balance, toCoin.decimals)
       "
@@ -139,15 +140,17 @@
       <div class="liquidityAsset">
         <div class="item">
           <div class="left">
-            <img :src="fromCoin.icon || importIcon(`/image/coins/${fromCoin.symbol.toLowerCase()}.png`)" alt="" />
+            <img :src="fromCoin.logoURI || importIcon(`/image/coins/${fromCoin.symbol.toLowerCase()}.png`)" alt="" />
             <span>{{ fromCoin.symbol }}</span>
+            <span class="coin-name">{{ fromCoin?.name }}</span>
           </div>
           <div class="right">{{ addCommom(currentLpInfo.myCoinXAmount, fromCoin.decimals) }}</div>
         </div>
         <div class="item">
           <div class="left">
-            <img :src="toCoin.icon || importIcon(`/image/coins/${toCoin.symbol.toLowerCase()}.png`)" alt="" />
+            <img :src="toCoin.logoURI || importIcon(`/image/coins/${toCoin.symbol.toLowerCase()}.png`)" alt="" />
             <span>{{ toCoin.symbol }}</span>
+            <span class="coin-name">{{ toCoin?.name }}</span>
           </div>
           <div class="right">{{ addCommom(currentLpInfo.myCoinYAmount, toCoin.decimals) }}</div>
         </div>
@@ -243,8 +246,8 @@ export default defineComponent({
     const marketTimer = ref(null as any)
     const router = useRouter()
     const route = useRoute()
-    const coinfrom: string = router.currentRoute.value.query.from || Object.values(liquidity.value.lpTokens)[0].coinA
-    const cointo: string = router.currentRoute.value.query.to || Object.values(liquidity.value.lpTokens)[0].coinB
+    const coinfrom: string = router?.currentRoute?.value?.query?.from || Object.values(liquidity.value.lpTokens)[0].coinA
+    const cointo: string = router?.currentRoute?.value?.query?.to || Object.values(liquidity.value.lpTokens)[0].coinB
     const fromCoin = ref<any>('')
     const toCoin = ref<any>('')
 
@@ -287,7 +290,7 @@ export default defineComponent({
       //     return t('button.poolNotFound')
       //   }
       // }
-      const currentLp = getCurrentLP(fromCoin.value.symbol, toCoin.value.symbol, liquidityStore.lpTokens)
+      const currentLp = getCurrentLP(fromCoin.value && fromCoin.value.symbol, toCoin.value && toCoin.value.symbol, liquidityStore.lpTokens)
       if (!currentLp) return t('button.poolNotFound')
       // if (fromCoin.value && Number(fromCoinAmount.value) > Number(liquidity.value.tokens[fromCoin.value.symbol].balance)) {
       //   return t('button.insufficientBalance', { name: fromCoin.value.symbol })
@@ -305,6 +308,10 @@ export default defineComponent({
             name: fromCoin.value.symbol
           })
         }
+      } else if (wallet.value.assets && !wallet.value.assets[fromCoin.value.address]) {
+        return t('button.insufficientBalance', {
+          name: fromCoin.value.symbol
+        })
       }
 
       if (wallet.value.assets && wallet.value.assets[toCoin.value.address]) {
@@ -316,6 +323,10 @@ export default defineComponent({
             name: toCoin.value.symbol
           })
         }
+      } else if (wallet.value.assets && !wallet.value.assets[toCoin.value.address]) {
+        return t('button.insufficientBalance', {
+          name: toCoin.value.symbol
+        })
       }
       if (!Number(fromCoinAmount.value)) {
         return t('button.enterAmount')
@@ -637,7 +648,7 @@ export default defineComponent({
         const payload = await contractStore.createAddLiquidityTransactionPayload(params.value)
 
         let tx
-        if (store.value.chainName === 'Sui') {
+        if (store.value.chainName !== 'Aptos') {
           const res = await wallet.value.currentWallet.signAndExecuteTransaction(payload)
           tx = contractStore.handleTx(res)
         } else {
@@ -676,6 +687,7 @@ export default defineComponent({
         toCoinAmount.value = ''
         fromCoinAmount.value = ''
       } catch (error) {
+        console.log('0208###toAdd###error####', error)
         swaping.value = false
         setIsShowWaiting(false)
         setIsShowRejected(true)

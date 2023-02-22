@@ -44,9 +44,9 @@
             class="view"
             target="_blank"
             :href="
-              chainName === 'Sui'
-                ? `https://explorer.sui.io/addresses/${wallet.address}?network=${config.network}`
-                : `https://explorer.aptoslabs.com/account/${wallet.address}?network=${config.network}`
+              chainName === 'Aptos'
+                ? `https://explorer.aptoslabs.com/account/${wallet.address}?network=${config.network}`
+                : `https://explorer.sui.io/addresses/${wallet.address}?network=${config.network}`
             "
           >
             <span>{{ $t('common.viewExplorer') }}</span>
@@ -88,7 +88,7 @@
                 target="_blank"
                 class="bottomLeft"
                 :href="
-                  chainName === 'Sui'
+                  chainName !== 'Aptos'
                     ? `https://explorer.sui.io/transaction/${encodeURIComponent(item.hash)}?network=${config.network}`
                     : `https://explorer.aptoslabs.com/txn/${item.hash}?network=${config.network}`
                 "
@@ -98,7 +98,7 @@
                     <use xlink:href="#icon-icon-jump"></use>
                   </svg> -->
               </a>
-              <img v-if="chainName === 'Sui'" src="../assets/sui-image/success.png" alt="" />
+              <img v-if="chainName !== 'Aptos'" src="../assets/sui-image/success.png" alt="" />
               <img v-else src="../assets/image/success.png" alt="" />
               <!-- <img v-else src="../assets/image/filed.png" alt="" /> -->
             </div>
@@ -169,12 +169,12 @@ export default defineComponent({
         iconName: 'Fewcha',
         icon: 'https://miro.medium.com/fit/c/176/176/1*a0WaY-q7gjCRiuryRG6TkQ.png'
       },
-      HyperPay: {
-        name: 'HyperPay',
-        url: 'https://www.hyperpay.io/',
-        iconName: 'hyperpay',
-        icon: ''
-      },
+      // HyperPay: {
+      //   name: 'HyperPay',
+      //   url: 'https://www.hyperpay.io/',
+      //   iconName: 'hyperpay',
+      //   icon: ''
+      // },
       Coin98: {
         name: 'Coin98',
         url: 'https://chrome.google.com/webstore/detail/coin98-wallet/aeachknmefphepccionboohckonoeemg',
@@ -229,6 +229,24 @@ export default defineComponent({
         url: 'https://chrome.google.com/webstore/detail/openblock-bridge/memiokcjdencbponfgbkojkenpdpejhj',
         iconName: 'OpenBlock',
         icon: ''
+      },
+      Trust: {
+        name: 'Trust',
+        url: 'https://trustwallet.com/',
+        iconName: 'Trust',
+        icon: ''
+      },
+      // Msafe: {
+      //   name: 'Msafe',
+      //   url: '',
+      //   iconName: 'Msafe',
+      //   icon: ''
+      // },
+      Spacecy: {
+        name: 'Spacecy',
+        url: 'https://chrome.google.com/webstore/detail/spacecy-wallet/mkchoaaiifodcflmbaphdgeidocajadp?hl=en-US',
+        iconName: 'Spacecy',
+        icon: ''
       }
       // Hippo: {
       //   name: 'Hippo',
@@ -247,14 +265,71 @@ export default defineComponent({
     const suiWalletList = reactive({
       suiWallet: {
         name: 'Sui Wallet',
+        walletName: 'Sui Wallet',
         url: 'https://chrome.google.com/webstore/detail/sui-wallet/opcgpfmipidbgpenhmajoajpbobppdil',
         iconName: 'sui-wallet-icon',
         icon: ''
       },
       Martian: {
         name: 'Martian',
+        walletName: 'Martian Sui Wallet',
         url: 'https://chrome.google.com/webstore/detail/martian-wallet/efbglgofoippbgcjepnhiblaibcnclgk',
         iconName: 'Martian',
+        icon: ''
+      },
+      Suiet: {
+        name: 'Suiet',
+        walletName: 'Suiet',
+        url: 'https://chrome.google.com/webstore/detail/suiet-sui-wallet/khpkpbbcccdmmclmpigdgddabeilkdpd',
+        iconName: 'suiet-icon',
+        icon: ''
+      },
+      Fewcha: {
+        name: 'Fewcha',
+        walletName: 'Fewcha Move Wallet',
+        url: 'https://fewcha.app/',
+        iconName: 'Fewcha',
+        icon: 'https://miro.medium.com/fit/c/176/176/1*a0WaY-q7gjCRiuryRG6TkQ.png'
+      },
+      // BitKeep: {
+      //   name: 'BitKeep',
+      //   walletName: 'Bitkeep Wallet',
+      //   url: 'https://chrome.google.com/webstore/detail/bitkeep-bitcoin-crypto-wa/jiidiaalihmmhddjgbnbgdfflelocpak',
+      //   iconName: 'BitKeep',
+      //   icon: 'https://raw.githubusercontent.com/bitkeepwallet/download/main/logo-png/BitKeep_logo_circle.png'
+      // },
+      // Coin98: {
+      //   name: 'Coin98',
+      //   url: 'https://chrome.google.com/webstore/detail/coin98-wallet/aeachknmefphepccionboohckonoeemg',
+      //   iconName: 'coin98',
+      //   icon: 'https://coin98.s3.ap-southeast-1.amazonaws.com/Coin/c98wallet.png'
+      // },
+      Ethos: {
+        name: 'Ethos',
+        walletName: 'Ethos Wallet',
+        url: 'https://chrome.google.com/webstore/detail/ethos-sui-wallet/mcbigmjiafegjnnogedioegffbooigli',
+        iconName: 'Ethos',
+        icon: ''
+      },
+      Morphis: {
+        name: 'Morphis',
+        walletName: 'Morphis Wallet',
+        url: 'https://chrome.google.com/webstore/detail/morphis-wallet/heefohaffomkkkphnlpohglngmbcclhi',
+        iconName: 'Morphis',
+        icon: ''
+      },
+      Spacecy: {
+        name: 'Spacecy',
+        walletName: 'Spacecy Sui Wallet',
+        url: 'https://chrome.google.com/webstore/detail/spacecy-wallet/mkchoaaiifodcflmbaphdgeidocajadp',
+        iconName: 'Spacecy',
+        icon: ''
+      },
+      Glass: {
+        name: 'Glass',
+        walletName: 'GlassWallet',
+        url: 'https://chrome.google.com/webstore/detail/glass-wallet-sui-wallet/loinekcabhlmhjjbocijdoimmejangoa',
+        iconName: 'Glass',
         icon: ''
       }
       // BitKeep: {
@@ -281,16 +356,10 @@ export default defineComponent({
       //   iconName: 'Martian',
       //   icon: ''
       // }
-      // suiet: {
-      //   name: 'Suiet',
-      //   url: 'https://chrome.google.com/webstore/detail/suiet-sui-wallet/khpkpbbcccdmmclmpigdgddabeilkdpd',
-      //   iconName: 'suiet-icon',
-      //   icon: ''
-      // }
     })
 
     const walletList = computed(() => {
-      if (store.value.chainName === 'Sui') {
+      if (store.value.chainName !== 'Aptos') {
         return suiWalletList
       } else {
         return aptosWalletList
@@ -303,7 +372,11 @@ export default defineComponent({
     })
     const { connect, disconnect } = useWalletProvider()
     function setWallet(status, walletinfo) {
-      connect(walletinfo.name, walletinfo.iconName, store.value.chainName)
+      if (store.value.chainName !== 'Aptos') {
+        connect(walletinfo.walletName, walletinfo.iconName, store.value.chainName, walletinfo.url, walletinfo.name)
+      } else {
+        connect(walletinfo.name, walletinfo.iconName, store.value.chainName)
+      }
       walletStore.setIsShowWalletModal(false)
       walletStore.setWalletIconName(walletinfo.iconName)
     }
@@ -421,8 +494,8 @@ export default defineComponent({
     // border-radius: 10px;
     // width: 200px;
     height: 60px;
-    border-radius: 8px;
-    border: 1px solid #292929;
+    // border-radius: 8px;
+    border: 1px solid #313437;
 
     cursor: pointer;
     // border: 1px solid transparent;
@@ -438,8 +511,8 @@ export default defineComponent({
     &:hover {
       // background: rgba(255, 255, 255, 0.1);
       // border-radius: 10px;
-      background: #292929;
-      border-radius: 8px;
+      background: #313437;
+      // border-radius: 8px;
       // border: 1px solid #1b1b1b;
     }
 
@@ -622,7 +695,7 @@ export default defineComponent({
   .transtions {
     display: flex;
     align-items: center;
-    justify-content: center;
+    // justify-content: center;
     flex-direction: column;
     width: 100%;
     background: @cardCenter;
@@ -736,7 +809,7 @@ export default defineComponent({
   }
   .ant-modal-content {
     .ant-modal-body {
-      padding: 0px 16px 20px 16px;
+      padding: 0px 16px 20px 16px !important;
     }
   }
 }

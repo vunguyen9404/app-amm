@@ -29,7 +29,7 @@
             :coin-name="fromCoin ? fromCoin.symbol : ''"
             :coin-address="fromCoin ? fromCoin.address : ''"
             :coin-decimals="fromCoin ? fromCoin.decimals : 6"
-            :coin-icon="fromCoin ? fromCoin.icon : ''"
+            :coin-icon="fromCoin ? fromCoin.logoURI : ''"
             :swap-direction="'From'"
             @onMax="maxBtnSelect"
             @onInput="amount => (fromCoinAmount = amount)"
@@ -50,7 +50,7 @@
             :coin-address="toCoin ? toCoin.address : ''"
             :coin-decimals="toCoin ? toCoin.decimals : 6"
             :swap-direction="'To'"
-            :coin-icon="toCoin ? toCoin.icon : ''"
+            :coin-icon="toCoin ? toCoin.logoURI : ''"
             @onInput="amount => (toCoinAmount = amount)"
             @onFocus="
               () => {
@@ -285,7 +285,7 @@ export default defineComponent({
     watch(
       () => [liquidity.value.tokens, liquidity.value.lpTokens],
       ([newTokens, newLpTokens]) => {
-        if (newTokens && newLpTokens && !checkNullObj(newTokens)) {
+        if (newTokens && newLpTokens && !checkNullObj(newTokens) && !checkNullObj(newLpTokens)) {
           tokens.value = newTokens
           const lpTokenList: any = Object.values(newLpTokens)
           fromCoin.value = newTokens[lpTokenList[0].coinA.symbol]
@@ -391,10 +391,10 @@ export default defineComponent({
     const maxBtnSelect = (key, balance: any) => {
       if (key === 'fromCoin') {
         fixedFromCoin.value = true
-        fromCoinAmount.value = balance.value
+        fromCoinAmount.value = fromCoin.value.address === '0x2::sui::SUI' ? balance.value - 0.0001 : balance.value
       } else {
         fixedFromCoin.value = false
-        toCoinAmount.value = balance.value
+        toCoinAmount.value = toCoin.value.address === '0x2::sui::SUI' ? balance.value - 0.0001 : balance.value
       }
     }
     const clickRefresh = () => {
@@ -592,7 +592,7 @@ export default defineComponent({
         })
 
         let tx
-        if (index.value.chainName === 'Sui') {
+        if (index.value.chainName !== 'Aptos') {
           const res = await wallet.value.currentWallet.signAndExecuteTransaction(payload)
           tx = contractStore.handleTx(res)
         } else {
@@ -629,6 +629,7 @@ export default defineComponent({
         toCoinAmount.value = ''
         swaping.value = false
       } catch (error) {
+        console.log('toswap###error####', error)
         fromCoinAmount.value = ''
         toCoinAmount.value = ''
         swaping.value = false

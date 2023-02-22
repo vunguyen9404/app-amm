@@ -246,7 +246,7 @@ export default defineComponent({
     watch(
       () => store.value.chainName,
       newValue => {
-        if (newValue == 'Sui') {
+        if (newValue !== 'Aptos') {
           router.push('/swap')
         }
       },

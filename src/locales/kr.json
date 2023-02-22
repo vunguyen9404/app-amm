@@ -2,7 +2,51 @@
     "menu":{
         "swap":"스왑",
         "pools":"풀",
-        "stats":"통계"
+        "stats":"통계",
+        "bridge":"브릿지"
+    },
+    "newAdd": {
+        "addMore": "더 많은 유동성 추가",
+        "receive": "받다",
+        "invalidPair": "잘못된 쌍",
+        "invalidRange": "잘못된 범위",
+        "claimWaitingText": "청구 {from} {and} {to}",
+        "walletNotConnect": "지갑이 {network}에 연결되어 있지 않습니다",
+        "confirmingTransaction": "거래 확인",
+        "transactions":"트랜잭션",
+        "wallet":"지갑",
+        "switch":"변경",
+        "switchChain":"체인 변경",
+        "claimFailed":"청구 실패",
+        "noRecentTransactions":"최근 거래 없음",
+        "somethingWrong":"문제가 발생했습니다",
+        "sortBy":"정렬 기준",
+        "poolInfo":"풀 통계",
+        "tickSpacing":"틱 간격",
+        "positionAppear":"당신의 위치가 여기에 표시됩니다",
+        "depositAmounts":"입금액",
+        "depositRatio":"입금 비율",
+        "selectRange":"범위 선택",
+        "selectRangeTips":"이 쌍의 최근 가격 기록에 따라 사전 설정을 선택하거나 사용자 정의 가격 범위를 설정하십시오.",
+        "depositRatioTips":"두 자산의 비율은 설정한 범위와 현재 가격에 따라 다릅니다.",
+        "activeTips":"수익률은 높지만 잠재적으로 비영구적 손실이 더 높습니다. 빈번한 재조정이 필요합니다.",
+        "passiveTips":"낮은 수율과 낮은 비영구적 손실. 덜 빈번한 재조정.",
+        "fullRangTips":"전체 범위 포지션은 재조정할 필요 없이 항상 활성화되어 있지만 집중된 유동성보다 적은 수수료를 받을 수 있습니다.",
+        "suggestedTips":"지난 7일간의 가격 기록에 따른 권장 범위.",
+        "customTips":"집중된 유동성이 어떻게 작동하는지 이해하는 경우에만 권장됩니다.",
+        "suggested":"제안",
+        "active":"활성화",
+        "conservative":"보수적인",
+        "fullRange":"전체 범위",
+        "custom":"맞춤화",
+        "label":"상표",
+        "pendingFees":"보류 중인 수수료",
+        "openPositionSuccessful":"오픈 포지션 성공",
+        "viewDetail":"자세히보기",
+        "success":"성공",
+        "failed":"실패",
+        "toGetSuiFaucetCoinsToReceiveOurTestCoins":"{theme} 수도꼭지를 받으려면 지갑 확장 내에서 요청하세요.",
+        "youNeedSuiFaucetCoinsToReceiveOurTestCoins":"테스트 코인을 받으려면 {theme} 수도꼭지 코인이 필요합니다."
     },
     "modal":{
         "settingModalTitle":"설정",
@@ -66,7 +110,9 @@
         "removeLiquidiyText":"{from}와 {to} 제거 중",
         "removeSuccess":"유동성 제거 성공",
         "removeSuccessText":"{from}와 {to} 제거됨",
-        "swap":"스왑"
+        "swap":"스왑",
+        "slippageTolerance1":"유효한 슬리피지 백분율을 입력하세요",
+        "slippageTolerance2":"거래가 선행될 수 있습니다"
     },
     "common":{
         "balance":"잔액",
@@ -104,7 +150,9 @@
         "volume24h":"양(24H)",
         "topTokens":"상위 풀",
         "tokens":"토큰",
-        "price":"가격"
+        "price":"가격",
+        "noData":"데이터 없음",
+        "noLiquidityPositions":"유동성 포지션 없음"
     },
     "contactUS":{
         "docs":"독스",

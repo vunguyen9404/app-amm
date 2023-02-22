@@ -16,8 +16,8 @@
       <div class="card-content">
         <div class="top">
           <div class="coin">
-            <img :src="fromCoin.icon || importIcon(`/image/coins/${fromCoin.symbol.toLowerCase()}.png`)" />
-            <img :src="toCoin.icon || importIcon(`/image/coins/${toCoin.symbol.toLowerCase()}.png`)" />
+            <img :src="fromCoin.logoURI || importIcon(`/image/coins/${fromCoin.symbol.toLowerCase()}.png`)" />
+            <img :src="toCoin.logoURI || importIcon(`/image/coins/${toCoin.symbol.toLowerCase()}.png`)" />
             <p>{{ currentRecivedLp }} LP</p>
           </div>
         </div>

@@ -11,6 +11,7 @@ export const useLiquidityStore = defineStore('liquidity', {
       myLplist: [],
       tokens: {},
       lpTokens: {},
+      cmmLpTokens: [],
       addressLpTokens: {},
       addressTokens: {}
     }
@@ -63,7 +64,9 @@ export const useLiquidityStore = defineStore('liquidity', {
 
       let result: any = []
       let addressResult: any = []
-      const res: any = await $fetch(`${config[chainName].api}/${chainName.toLowerCase()}/config/token-list`)
+      const res: any = await $fetch(
+        `${config[chainName].api}/${chainName.toLowerCase() === 'sui2' ? 'sui' : chainName.toLowerCase()}/config/token-list`
+      )
       const data = res.data
       if (data) {
         result = Object.fromEntries(data.map(item => [item.symbol, item]))
@@ -103,7 +106,9 @@ export const useLiquidityStore = defineStore('liquidity', {
       //   return
       // }
 
-      const res: any = await $fetch(`${config[chainName].api}/${chainName.toLowerCase()}/config/lp-list`)
+      const res: any = await $fetch(
+        `${config[chainName].api}/${chainName.toLowerCase() === 'sui2' ? 'sui' : chainName.toLowerCase()}/config/lp-list`
+      )
       const data = res.data
       if (data) {
         result = Object.fromEntries(
@@ -129,7 +134,9 @@ export const useLiquidityStore = defineStore('liquidity', {
       this.addressLpTokens = addressResult
     },
     async getCmmLpList(chainName: string) {
-      const res: any = await $fetch(`${config[chainName].api}/v2/${chainName.toLowerCase()}/config/lp-list`)
+      const res: any = await $fetch(
+        `${config[chainName].cmmApi}/v2/${chainName.toLowerCase() === 'sui2' ? 'sui' : chainName.toLowerCase()}/config/lp-list`
+      )
       this.cmmLpTokens = res.data || []
     },
     resetTokenAndLp() {

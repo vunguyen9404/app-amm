@@ -4,16 +4,22 @@ const cookies = new Cookies()
 
 import th from '@/locales/th.json'
 import en from '@/locales/en.json'
+import hi from '@/locales/hi.json'
 import kr from '@/locales/kr.json'
 import vi from '@/locales/vi.json'
 import ru from '@/locales/ru.json'
+import ja from '@/locales/ja.json'
+import tr from '@/locales/tr.json'
 
 const message = {
   th: th,
   en: en,
+  hi: hi,
   kr: kr,
   vi: vi,
-  ru: ru
+  ja: ja,
+  ru: ru,
+  tr: tr
 }
 
 export const i18n = createI18n({

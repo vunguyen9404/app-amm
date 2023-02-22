@@ -9,11 +9,11 @@ import { useIndexStore } from '@/store'
 import { useNuxtApp } from '#app'
 import config from '@/utils/config'
 
-export default function () {
-  const LiquidswapDeployer = config['Sui'].liquidswapDeployer
-  const globalPauseStatusObjectId = config['Sui'].globalPauseStatusObjectId
+export default function (chainName) {
+  const LiquidswapDeployer = config[chainName || 'Sui'].liquidswapDeployer
+  const globalPauseStatusObjectId = config[chainName || 'Sui'].globalPauseStatusObjectId
   const defaultNetworkOptions: SdkOptions = {
-    fullRpcUrl: config['Sui'].rpcUrl,
+    fullRpcUrl: config[chainName || 'Sui'].rpcUrl,
     networkOptions: {
       modules: {
         LiquidswapDeployer,
@@ -22,7 +22,7 @@ export default function () {
     }
   }
 
-  const faucetObjectId = config['Sui'].faucetObjectId
+  const faucetObjectId = config[chainName || 'Sui'].faucetObjectId
 
   const sdk = reactive(new SDK(defaultNetworkOptions))
 
@@ -45,6 +45,8 @@ export default function () {
     try {
       walletSotre.setLoading(true)
       const list = await sdk.Resources.getSuiObjectOwnedByAddress(account)
+
+      console.log('0208###getAccount###list###', list)
       const assets: any = {}
       list.forEach(item => {
         if (item && item.coinAddress) {
@@ -92,7 +94,7 @@ export default function () {
     //     ]
     //   }
     // }
-
+    const coinList = config[chainName].testCoin
     const payload = {
       kind: 'moveCall',
       data: {
@@ -101,26 +103,21 @@ export default function () {
         function: 'faucetAll',
         typeArguments: [],
         gasBudget: 1000,
-        arguments: [
-          '0x137a705c58c023388773791086a7027b81dfdd7a',
-          '0x71af53d841d834b4c178de6fb61cce915dd00355',
-          '0x69b32e3cebc804e22370b44d473c516766b6332b',
-          '0xfabd90cfd4c504bff2b2a8405cb70e8b26a08185'
-        ]
+        arguments: [...coinList]
       }
     }
 
     return payload
   }
 
-  const getFaucetEventsTime = async (account: string) => {
-    const intervalFaucetTime = 12 * 60 * 60 * 1000
-    const faucetEvents = await sdk.Resources.getFaucetEvent(faucetObjectId, account, intervalFaucetTime)
-    if (faucetEvents && faucetEvents.time) {
-      return faucetEvents.time.toNumber()
-    }
-    return 0
-  }
+  // const getFaucetEventsTime = async (account: string) => {
+  //   const intervalFaucetTime = 12 * 60 * 60 * 1000
+  //   const faucetEvents = await sdk.Resources.getFaucetEvent(faucetObjectId, account, intervalFaucetTime)
+  //   if (faucetEvents && faucetEvents.time) {
+  //     return faucetEvents.time.toNumber()
+  //   }
+  //   return 0
+  // }
 
   const { $notify } = useNuxtApp()
   interface transitionStatusParams {
@@ -142,7 +139,9 @@ export default function () {
         h(
           'a',
           {
-            href: `https://explorer.sui.io/transaction/${window.encodeURIComponent(params.hash)}?network=${config['Sui'].network}`,
+            href: `https://explorer.sui.io/transaction/${window.encodeURIComponent(params.hash)}?network=${
+              config[chainName || 'Sui'].network
+            }`,
             target: '_blank',
             innerHTML: 'View transaction'
           },
@@ -163,7 +162,9 @@ export default function () {
         h(
           'a',
           {
-            href: `https://explorer.sui.io/transaction/${window.encodeURIComponent(params.hash)}?network=${config['Sui'].network}`,
+            href: `https://explorer.sui.io/transaction/${window.encodeURIComponent(params.hash)}?network=${
+              config[chainName || 'Sui'].network
+            }`,
             target: '_blank',
             innerHTML: 'View transaction'
           },
@@ -188,21 +189,35 @@ export default function () {
   // Monitor hash status
   const watchTransaction = async (params: transitionStatusParams) => {
     const { $notify } = useNuxtApp()
-    const res: any = await sdk.Resources.getSuiTransactionResponse(params.hash)
-    if (res?.effects?.status?.status === 'success') {
-      // return true
+    try {
+      const res: any = await sdk.Resources.getSuiTransactionResponse(params.hash)
+      if (res?.effects?.status?.status === 'success') {
+        // return true
+        $notify.close(params.hash + 'loading')
+        showTransitionSuccess(params)
+        return true
+      } else if (res && res.effects && res.effects.status && res.effects.status.status !== 'success') {
+        // return false
+        $notify.close(params.hash + 'loading')
+        showTransitionError(params.title)
+        return false
+      } else {
+        setTimeout(() => {
+          return watchTransaction(params)
+        }, 3000)
+      }
+    } catch (err) {
+      console.log('watchTransaction###error###', err)
       $notify.close(params.hash + 'loading')
-      showTransitionSuccess(params)
+      $notify.error({
+        icon: h('svg', { class: { icon: true }, 'aria-hidden': true }, [h('use', { 'xlink:href': '#icon-a-icon-Shutdown' })]),
+        message: h('div', { class: 'notification-title' }, [h('span', { innerHTML: `${params.title} Failed` }, null)]),
+        duration: 4.5,
+        description: 'Something went wrong',
+        class: 'ant-notification-copy ant-notification-error'
+      })
       return true
-    } else if (res && res.effects && res.effects.status && res.effects.status.status !== 'success') {
-      // return false
-      $notify.close(params.hash + 'loading')
-      showTransitionError(params.title)
-      return false
-    } else {
-      setTimeout(() => {
-        return watchTransaction(params)
-      }, 3000)
+      // throw err
     }
   }
 
@@ -216,28 +231,47 @@ export default function () {
       coinItem.objects.forEach(item => {
         list.push(item?.data?.fields?.id?.id)
       })
-      const id = await mergeCoinObject(list, coinItem.balance)
+
+      const id = await mergeCoinObject(address, list, coinItem.balance)
       return id
     }
   }
 
-  const mergeCoinObject = async (list: any, amounts: string) => {
+  const mergeCoinObject = async (coinAddress: string, list: any, amounts: string) => {
     const account = wallet.value.address
-    const payload = {
-      kind: 'pay',
-      data: {
-        inputCoins: list,
-        recipients: [account],
-        amounts: [Number(amounts)],
-        // gasPayment: gas_obj_id,
-        gasBudget: 1000
+    let payload: any = {}
+    if (coinAddress !== '0x2::sui::SUI') {
+      payload = {
+        kind: 'pay',
+        data: {
+          inputCoins: list,
+          recipients: [account],
+          amounts: [Number(amounts)],
+          // gasPayment: gas_obj_id,
+          gasBudget: 100000
+        }
+      }
+    } else {
+      payload = {
+        kind: 'payAllSui',
+        data: {
+          inputCoins: list,
+          recipient: account,
+          gasBudget: 100000
+        }
       }
     }
     const res = await wallet.value.currentWallet.signAndExecuteTransaction(payload)
     if (res?.effects?.status?.status === 'success' || res?.EffectsCert?.effects?.effects?.status?.status === 'success') {
-      const newObjectId =
-        res?.effects?.created[0]?.reference?.objectId || res?.EffectsCert?.effects?.effects?.created[0]?.reference?.objectId
-      if (newObjectId) return newObjectId
+      if (coinAddress !== '0x2::sui::SUI') {
+        const newObjectId =
+          res?.effects?.created[0]?.reference?.objectId || res?.EffectsCert?.effects?.effects?.created[0]?.reference?.objectId
+        if (newObjectId) return newObjectId
+      } else {
+        const newObjectId =
+          res?.effects?.mutated[0]?.reference?.objectId || res?.EffectsCert?.effects?.effects?.mutated[0]?.reference?.objectId
+        if (newObjectId) return newObjectId
+      }
     } else {
       showTransitionError('MergeCoin Error')
       return
@@ -429,6 +463,11 @@ export default function () {
       const totalLpUSD = t.mul(rate).toString()
       const price = d(coinYAmount.toString()).div(coinXAmount.toString()).toString()
 
+      let showTotalLpUSD = true
+      if (baseInfo.coinB.symbol.toLowerCase().includes('sui')) {
+        showTotalLpUSD = false
+      }
+
       newList.push({
         ...info,
         ...baseInfo,
@@ -437,7 +476,8 @@ export default function () {
         lpPrice,
         totalCoinXAmount: coinXAmount,
         totalCoinYAmount: coinYAmount,
-        address: info.poolObjectId
+        address: info.poolObjectId,
+        showTotalLpUSD
       })
     }
 
@@ -459,7 +499,10 @@ export default function () {
             coinY: info.coinB,
             liquidity: balance
           })
-          const myBalanceUSD = d(balance).mul(lpPrice)
+          let myBalanceUSD = d(balance).mul(lpPrice)
+          if (info.coinB.symbol.toLowerCase().includes('sui')) {
+            myBalanceUSD = d(0)
+          }
           const myshareOfPool = d(balance).div(info.lpSupply).mul(100).toString()
           const b = decimalFormat(d(balance).div(Math.pow(10, info.decimals)).toString(), info.decimals)
           let newBalance
@@ -474,7 +517,7 @@ export default function () {
             balance,
             balanceOrigin: balance,
             myLpBalance: newBalance,
-            myBalanceUSD,
+            myBalanceUSD: myBalanceUSD.toString(),
             myCoinXAmount: decimalFormat(myLpWithCoinXY.coinXAmount, info.coinA.decimals),
             myCoinYAmount: decimalFormat(myLpWithCoinXY.coinYAmount, info.coinB.decimals),
             myshareOfPool: Number(myshareOfPool) < 0.01 ? '<0.01' : fixD(myshareOfPool, 2)
@@ -599,7 +642,6 @@ export default function () {
       const share = d(params.currentLpVal)
         .div(total.plus(d(params.currentLpVal)))
         .mul(100)
-      console.log('getShareOfPool###share####', share.toString())
       if (Number(share) > 0.01) return decimalFormat(share.toString(), 2) || ''
     }
     return '<0.01'
@@ -621,7 +663,7 @@ export default function () {
 
   return {
     getCoin,
-    getFaucetEventsTime,
+    // getFaucetEventsTime,
     getAccount,
     calculatePriceImpact,
     calculateRates,

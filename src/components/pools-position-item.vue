@@ -1,10 +1,20 @@
 <template>
   <div class="pools-position-item">
     <div class="card-header">
-      <CoinPairName :from-coin="pItem.coinA" :to-coin="pItem.coinB" />
+      <CoinPairName v-if="index.chainName === 'Aptos'" :from-coin="pItem.coinA" :to-coin="pItem.coinB" />
       <!-- <svg :class="openCard ? 'icon open-icon' : 'icon'" aria-hidden="true" @click="openCard = !openCard">
         <use xlink:href="#icon-icon_on" />
       </svg> -->
+      <div v-else class="coin-logo">
+        <div class="img-box">
+          <img v-if="pItem.coinA" :src="pItem.coinA?.logoURI || importIcon(`/image/coins/${pItem.coinA?.symbol.toLowerCase()}.png`)" />
+          <img v-if="pItem.coinB" :src="pItem.coinB?.logoURI || importIcon(`/image/coins/${pItem.coinB?.symbol.toLowerCase()}.png`)" />
+        </div>
+        <div v-show="pItem.coinA && pItem.coinB" class="symbol-name">
+          <span class="coin-symbol">{{ pItem.coinA?.symbol }} / {{ pItem.coinB?.symbol }}</span>
+          <span class="coin-name">{{ pItem.coinA?.name }} / {{ pItem.coinB?.name }}</span>
+        </div>
+      </div>
       <div
         v-if="(index.chainName === 'Aptos' && pItem.coinA.name.toLowerCase().includes('z')) || pItem.coinB.name.toLowerCase().includes('z')"
         class="label green"
@@ -32,7 +42,17 @@
       <div class="item">
         <div class="induction-text">{{ $t('common.totalLiquidity') }}</div>
         <div v-if="pItem.totalLpUSD" class="induction-value">
-          {{ pItem.totalLpUSD && `$ ${addCommom(pItem.totalLpUSD, 2)}` }}
+          <div v-if="pItem.showTotalLpUSD || index.chainName == 'Aptos'">
+            {{ pItem.totalLpUSD && `$ ${addCommom(pItem.totalLpUSD, 2)}` }}
+          </div>
+          <div v-else class="coin-amount">
+            <div>
+              <span>{{ addCommom(pItem.totalCoinXAmount, pItem.coinA.decimals) }}</span> <i>{{ pItem.coinA.symbol }}</i>
+            </div>
+            <div>
+              <span>{{ addCommom(pItem.totalCoinYAmount, pItem.coinB.decimals) }}</span> <i>{{ pItem.coinB.symbol }}</i>
+            </div>
+          </div>
         </div>
         <template v-else>
           <a-spin :indicator="indicator" />
@@ -46,17 +66,22 @@
           <div class="value">
             <p>{{ getLpView(pItem) }}</p>
             &nbsp;&nbsp;
-            <span v-if="pItem.myBalanceUSD"> ~ ${{ addCommom(pItem.myBalanceUSD, 2) }} </span>
+            <span v-if="Number(pItem.myBalanceUSD)"> ~ ${{ addCommom(pItem.myBalanceUSD, 2) }} </span>
           </div>
         </div>
         <div class="bottom">
           <div class="btn-box">
             <a-button class="cancel-btn" @click="toRemove">{{ $t('button.remove') }}</a-button>
-            <a-button class="confirm-btn" @click="toAdd">{{ $t('button.add') }}</a-button>
+            <a-button :disabled="index.chainName == 'Aptos'" class="confirm-btn" @click="toAdd">{{ $t('button.add') }}</a-button>
           </div>
         </div>
       </div>
-      <a-button v-else class="add-big-btn" @click="router.push(`/pools-liquidity-add?from=${pItem.coinA.symbol}&to=${pItem.coinB.symbol}`)">
+      <a-button
+        v-else
+        :disabled="index.chainName == 'Aptos'"
+        class="add-big-btn"
+        @click="router.push(`/pools-liquidity-add?from=${pItem.coinA.symbol}&to=${pItem.coinB.symbol}`)"
+      >
         {{ $t('button.addLiquidity') }}
       </a-button>
     </div>
@@ -110,7 +135,7 @@ export default defineComponent({
       const r = d(lp).div(Math.pow(10, pitem.decimals)).toString()
       return addCommom(r, pitem.decimals)
     }
-    return { indicator, thousands, importIcon, router, toRemove, toAdd, wallet, addCommom, getLpView }
+    return { indicator, thousands, importIcon, router, toRemove, toAdd, wallet, addCommom, getLpView, index }
   }
 })
 </script>
@@ -130,6 +155,35 @@ export default defineComponent({
     align-items: center;
     justify-content: space-between;
     padding: 14px 16px;
+    .coin-logo {
+      display: flex;
+      align-items: center;
+      img {
+        width: 36px;
+        height: 36px;
+        &:nth-child(2) {
+          margin-left: -6px;
+        }
+        &:nth-last-child(1) {
+          margin-right: 8px;
+        }
+      }
+      .coin-symbol {
+        font-size: 16px;
+        font-weight: 400;
+        color: @textActive;
+      }
+      .symbol-name {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .coin-name {
+          font-size: 12px;
+          font-weight: 400;
+          color: @textDefault;
+        }
+      }
+    }
     .label {
       width: 90px;
       height: 22px;
@@ -169,6 +223,18 @@ export default defineComponent({
     }
     .induction-value {
       font-size: 14px;
+    }
+    .coin-amount {
+      font-size: 12px;
+      div {
+        display: flex;
+        justify-content: flex-end;
+      }
+      i {
+        color: @textDefault;
+        font-style: normal;
+        margin-left: 4px;
+      }
     }
   }
   .card-content {
@@ -228,6 +294,17 @@ export default defineComponent({
     width: 100%;
     .card-header {
       padding: 14px 8px;
+      .coin-logo {
+        img {
+          width: 32px;
+          height: 32px;
+        }
+        .coin-symbol {
+          font-size: 14px;
+          font-weight: 400;
+          color: @textActive;
+        }
+      }
     }
     .card-content {
       width: 100%;

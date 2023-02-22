@@ -17,7 +17,7 @@
       <div class="card-content">
         <div class="top">
           <div class="coin">
-            <img :src="fromCoin.icon || importIcon(`/image/coins/${fromCoin.symbol.toLowerCase()}.png`)" />
+            <img :src="fromCoin.logoURI || importIcon(`/image/coins/${fromCoin.symbol.toLowerCase()}.png`)" />
             <p>{{ fromCoinAmount }}</p>
             &nbsp;&nbsp;
             <p>{{ fromCoin.symbol }}</p>
@@ -28,7 +28,7 @@
             </svg>
           </div>
           <div class="coin">
-            <img :src="toCoin.icon || importIcon(`/image/coins/${toCoin.symbol.toLowerCase()}.png`)" />
+            <img :src="toCoin.logoURI || importIcon(`/image/coins/${toCoin.symbol.toLowerCase()}.png`)" />
             <p>{{ toCoinAmount }}</p>
             &nbsp;&nbsp;
             <p>{{ toCoin.symbol }}</p>

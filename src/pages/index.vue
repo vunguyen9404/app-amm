@@ -1,4 +1,4 @@
 <script>
-import Swap from './swap.vue'
+import Swap from './pools.vue'
 export default Swap
 </script>

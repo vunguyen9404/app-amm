@@ -4,9 +4,9 @@
     <div v-if="nftTokenMint" class="owner-addres">
       <a
         :href="
-          chainName === 'Sui'
-            ? `https://explorer.sui.io/addresses/${nftTokenAccount}?network=${config.network}`
-            : `https://explorer.aptoslabs.com/account/${nftTokenAccount}?network=${config.network}`
+          chainName === 'Aptos'
+            ? `https://explorer.aptoslabs.com/account/${nftTokenAccount}?network=${config.network}`
+            : `https://explorer.sui.io/addresses/${nftTokenAccount}?network=${config.network}`
         "
         target="_blank"
       >

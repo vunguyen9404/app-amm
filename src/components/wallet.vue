@@ -2,8 +2,8 @@
   <div v-if="wallet.connected" class="wallet-info" @click="wallet.setIsShowWalletModal(true)">
     <img :src="`/image/wallet/${wallet.walletIcon.toLowerCase()}.png`" alt="" />
     <div class="addressAndDev">
-      <span v-if="index.chainName === 'Sui'">Devnet</span>
-      <span :style="index.chainName !== 'Sui' ? 'margin-bottom: 0px' : ''">
+      <span v-if="index.chainName !== 'Aptos'">{{ currentNetwork }}</span>
+      <span :style="index.chainName === 'Aptos' ? 'margin-bottom: 0px' : ''">
         {{ wallet.address && wallet.address.substr(0, 6) }}
         ...
         {{ wallet.address && wallet.address.substr(wallet.address.length - 4, 4) }}
@@ -20,6 +20,7 @@ import importIcon from '@/utils/import-icon'
 import { defineComponent, computed } from 'vue'
 import { useWalletStore } from '../store/wallet'
 import { useIndexStore } from '../store/index'
+import configure from '@/utils/config'
 export default defineComponent({
   setup() {
     const store = useWalletStore()
@@ -32,7 +33,16 @@ export default defineComponent({
       return indexStore
     })
 
-    return { wallet, importIcon, store, index }
+    const config = computed(() => {
+      return configure[index.value.chainName]
+    })
+
+    const currentNetwork = computed(() => {
+      const network = config.value.network
+      return network.charAt(0).toUpperCase() + network.slice(1)
+    })
+
+    return { wallet, importIcon, store, index, currentNetwork }
   }
 })
 </script>

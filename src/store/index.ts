@@ -101,6 +101,9 @@ export const useIndexStore = defineStore('index', {
       } else if (theme == 'sui') {
         this.chainName = 'Sui'
         localStorage.setItem('chainName', 'Sui')
+      } else if (theme == 'sui2') {
+        this.chainName = 'Sui2'
+        localStorage.setItem('chainName', 'Sui2')
       }
     },
     setIsShowSuccess(status) {

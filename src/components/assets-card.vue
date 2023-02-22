@@ -2,7 +2,7 @@
   <div class="card">
     <div class="top">
       <div class="left" @click="hasArrow ? selectCoin() : ''">
-        <img v-if="coinName" :src="importIcon(`/image/coins/${coinName.toLowerCase()}.png`)" />
+        <img v-if="coinName" :src="coinIcon || importIcon(`/image/coins/${coinName.toLowerCase()}.png`)" />
         <span>{{ coinName ? coinName : $t('modal.selectTokenModalTitle') }}</span>
         <svg v-if="hasArrow" class="icon" aria-hidden="true">
           <use xlink:href="#icon-icon_on" />

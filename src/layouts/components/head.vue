@@ -1,12 +1,13 @@
 <template>
   <header>
     <div class="left">
-      <div class="logo" @click="gotoHome" />
+      <!-- <div class="logo" @click="gotoHome" /> -->
+      <a v-if="config" class="logo" :href="`${config.cmmSite}/swap`"></a>
       <div class="alpha"></div>
     </div>
     <Menu :open-h5-icon="openH5Icon" />
     <div class="menu-right">
-      <div v-if="store.chainName === 'Sui'" class="request-coin" @click="isRequestCoins = true">
+      <div v-if="store.chainName !== 'Aptos'" class="request-coin" @click="isRequestCoins = true">
         <img v-if="store.theme == 'default'" src="../../assets/image/icon-RequestCoins@2x.png" alt="" />
         <img v-else src="../../assets/sui-image/icon-RequestCoins@2x.png" alt="" />
         <span>Request Coins</span>
@@ -23,8 +24,8 @@
         "
       >
         <div :class="openSwitchChain ? 'text rodegText' : 'text'">
-          <img :src="importIcon(`/image/${store.chainName.toLowerCase()}.png`)" alt="" />
-          <span>{{ store.chainName }}</span>
+          <img :src="importIcon(`/image/${chainName.toLowerCase()}.png`)" alt="" />
+          <span>{{ chainName }}</span>
           <svg aria-hidden="true" class="icon">
             <use xlink:href="#icon-icon_on" />
           </svg>
@@ -33,14 +34,30 @@
           <p>Switch Chain</p>
           <div
             v-for="item in chainList"
-            :key="item.name"
-            :class="item.name == store.chainName ? 'item-container item-active-container' : 'item-container'"
+            :key="item.id"
+            :class="
+              item.id == store.chainName && config.network === item.network.toLowerCase()
+                ? 'item-container item-active-container'
+                : 'item-container'
+            "
           >
-            <div class="item" @click="changeChain(item.name)">
-              <img v-if="store.theme == 'default' && item.name == store.chainName" src="../../assets/image/icon-check@2x.png" alt="" />
-              <img v-if="store.theme == 'sui' && item.name == store.chainName" src="../../assets/sui-image/checked.png" alt="" />
+            <div class="item" @click="changeChain(item)">
+              <img
+                v-if="store.theme == 'default' && item.id == store.chainName && config.network === item.network.toLowerCase()"
+                class="selected-icon"
+                src="../../assets/image/icon-check@2x.png"
+                alt=""
+              />
+              <img
+                v-if="store.theme.includes('sui') && item.id == store.chainName && config.network === item.network.toLowerCase()"
+                class="selected-icon"
+                src="../../assets/sui-image/checked.png"
+                alt=""
+              />
               <img :src="importIcon(`/image/${item.name.toLowerCase()}.png`)" alt="" />
-              <span>{{ item.name }}</span>
+              <span class="name">{{ item.name }}</span>
+              <span class="gap"></span>
+              <i :class="`network-tag-${item.network}`">{{ item.network }}</i>
             </div>
           </div>
         </div>
@@ -74,7 +91,7 @@
             :class="item.value == counter.lang ? 'item-container item-active-container' : 'item-container'"
           >
             <div class="item" @click="changeLang(item.value)">
-              <span>{{ item.label }}</span>
+              <span>{{ item.icon }}&nbsp;&nbsp;{{ item.label }}</span>
             </div>
           </div>
         </div>
@@ -125,7 +142,7 @@
   </header>
 </template>
 <script lang="ts">
-import { defineComponent, ref, onMounted, onUnmounted, computed } from 'vue'
+import { defineComponent, ref, onMounted, onUnmounted, computed, watch } from 'vue'
 import importIcon from '@/utils/import-icon'
 import { useRouter } from 'vue-router'
 import useTheme from '@/composables/useTheme'
@@ -133,6 +150,8 @@ import { useIndexStore } from '@/store'
 import { useI18n } from 'vue-i18n'
 import { useWalletStore } from '@/store/wallet'
 import { useLiquidityStore } from '@/store/liquidity'
+import { Aptos } from '@fewcha/web3'
+import configure from '@/utils/config'
 
 export default defineComponent({
   setup(ctx) {
@@ -149,74 +168,110 @@ export default defineComponent({
     let openH5Icon = ref(false)
     let openSwitchLang = ref(false)
     const router = useRouter()
+    const languageValue = ref('')
     const { t, locale } = useI18n()
 
     const langObj = {
-      en: 'English',
-      th: 'ไทย',
-      kr: '한국어',
-      vi: 'Tiếng Việt',
-      ru: 'Русский'
+      en: '🇬🇧 English',
+      th: '🇹🇭 ไทย',
+      hi: '🇮🇳 Hindī',
+      kr: '🇰🇷 한국어',
+      vi: '🇻🇳 Tiếng Việt',
+      ja: '🇯🇵 日本語',
+      ru: '🇷🇺 Русский',
+      tr: '🇹🇷 Türkçe'
     }
     const langList = [
       {
+        icon: '🇬🇧',
         label: 'English',
         value: 'en'
       },
       {
+        icon: '🇹🇭',
         label: 'ไทย',
         value: 'th'
       },
-      // {
-      //   label: '한국어',
-      //   value: 'kr'
-      // },
       {
+        icon: '🇮🇳',
+        label: 'Hindī',
+        value: 'hi'
+      },
+      {
+        icon: '🇰🇷',
+        label: '한국어',
+        value: 'kr'
+      },
+      {
+        icon: '🇻🇳',
         label: 'Tiếng Việt',
         value: 'vi'
       },
       {
+        icon: '🇯🇵',
+        label: '日本語',
+        value: 'ja'
+      },
+      {
+        icon: '🇷🇺',
         label: 'Русский',
         value: 'ru'
+      },
+      {
+        icon: '🇹🇷',
+        label: 'Türkçe',
+        value: 'tr'
       }
     ]
     const chainList = [
       {
-        name: 'Aptos'
+        id: 'Aptos',
+        name: 'Aptos',
+        env: '',
+        network: 'Mainnet'
       },
       {
-        name: 'Sui'
+        id: 'Sui',
+        name: 'Sui',
+        env: 'pre',
+        network: 'Devnet'
+      },
+      {
+        id: 'Sui2',
+        name: 'Sui',
+        env: 'pre2',
+        network: 'Testnet'
       }
     ]
     const list = [
       {
         name: t('contactUS.docs'),
-        icon: '#icon-icon-Docs',
+        icon: '#icon-svg-docs',
         link: 'https://cetus-1.gitbook.io/cetus-docs/'
       },
       {
         name: t('contactUS.twitter'),
-        icon: '#icon-icon-twitter',
+        icon: '#icon-svg-twitter',
         link: 'https://twitter.com/CetusProtocol'
       },
       {
         name: t('contactUS.discord'),
-        icon: '#icon-icon-Discord',
+        icon: '#icon-svg-Discord',
         link: 'https://discord.gg/cetusprotocol'
       },
       {
         name: t('contactUS.tgGroup'),
-        icon: '#icon-icon-telegram',
+        icon: '#icon-svg-lark',
         link: 'https://t.me/cetuscommunity'
       },
       {
         name: t('contactUS.tgChannel'),
-        icon: '#icon-icon-TgChannel',
+        icon: '#icon-svg-tg',
         link: 'https://t.me/cetusprotocol'
       },
       {
         name: t('contactUS.medium'),
-        icon: '#icon-icon-medium',
+        icon: '#icon-svg-medium',
         link: 'https://medium.com/@CetusProtocol'
       }
     ]
@@ -227,13 +282,36 @@ export default defineComponent({
     let currentChain = ref(store.value.chainName || 'Aptos')
     const themeStore = useTheme()
     onMounted(() => {
+      const language: any = router?.currentRoute?.value?.query?.language
+      if (language) {
+        changeLang(language)
+      }
+      const swaichChain: any = router?.currentRoute?.value?.query?.swaichChain
+      if (swaichChain == 'aptos') {
+        themeStore.seleteDefaultTheme()
+        walletStore.setCurrentWallet({
+          wallet: wallet.value.aptosCurrentWallet,
+          isConnected: wallet.value.aptosConnected,
+          account: wallet.value.aptosAddress,
+          platform: 'Aptos',
+          icon: wallet.value.aptosWalletIcon
+        })
+      }
       document.addEventListener('click', () => {
         openH5Icon.value = false
         openMore.value = false
         openSwitchChain.value = false
         openSwitchLang.value = false
       })
+      languageValue.value = locale.value
+      getListHref()
     })
+    watch(
+      () => counter.lang,
+      newValue => {
+        languageValue.value = newValue
+      }
+    )
     onUnmounted(() => {
       document.removeEventListener('click', () => {
         openH5Icon.value = false
@@ -245,10 +323,20 @@ export default defineComponent({
     const gotoHome = () => {
       router.push('/')
     }
-    const changeChain = name => {
+    const getListHref = () => {
+      window.setInterval(() => {
+        list[0].name = t('contactUS.docs')
+        list[1].name = t('contactUS.twitter')
+        list[2].name = t('contactUS.discord')
+        list[3].name = t('contactUS.tgGroup')
+        list[4].name = t('contactUS.tgChannel')
+        list[5].name = t('contactUS.medium')
+      }, 1000)
+    }
+    const changeChain = item => {
       liquidityStore.resetTokenAndLp()
-      currentChain.value = name
-      if (name == 'Aptos') {
+      currentChain.value = item.id
+      if (item.id == 'Aptos') {
         themeStore.seleteDefaultTheme()
         walletStore.setCurrentWallet({
           wallet: wallet.value.aptosCurrentWallet,
@@ -257,9 +345,18 @@ export default defineComponent({
           platform: 'Aptos',
           icon: wallet.value.aptosWalletIcon
         })
-      }
-      if (name == 'Sui') {
+        window.location.href = `${config.value.cmmSite}/?language=${languageValue.value}`
+      } else if (item.id == 'Sui') {
         themeStore.selectSuiTheme()
+        walletStore.setCurrentWallet({
+          wallet: wallet.value.suiCurrentWallet,
+          isConnected: wallet.value.suiConnected,
+          account: wallet.value.suiAddress,
+          platform: 'Sui',
+          icon: wallet.value.suiWalletIcon
+        })
+      } else if (item.id === 'Sui2') {
+        themeStore.selectSui2Theme()
         walletStore.setCurrentWallet({
           wallet: wallet.value.suiCurrentWallet,
           isConnected: wallet.value.suiConnected,
@@ -270,21 +367,24 @@ export default defineComponent({
       }
     }
 
-    const openLangModal = () => {
-      openSwitchLang.value = !openSwitchLang.value
-      openMore.value = false
-    }
-    const openMoreModal = () => {
-      openSwitchLang.value = false
-      openMore.value = !openMore.value
-    }
-
     const { setLang } = counter
     const changeLang = value => {
       setLang(value)
       locale.value = value
     }
+    const config = computed(() => {
+      return configure[store.value.chainName]
+    })
+
+    const chainName = computed(() => {
+      if (store.value.chainName && store.value.chainName.toLowerCase().includes('sui')) {
+        const arr = store.value.chainName.split('2')
+        return arr[0]
+      }
+      return store.value.chainName
+    })
     return {
+      config,
       changeChain,
       currentChain,
       chainList,
@@ -301,8 +401,7 @@ export default defineComponent({
       openSwitchLang,
       counter,
       langObj,
-      openLangModal,
-      openMoreModal
+      chainName
     }
   }
 })
@@ -400,19 +499,21 @@ header {
         }
       }
       .list {
-        width: 140px;
+        width: 164px;
         position: absolute;
         top: 36px;
         left: -28px;
         background: #181818;
         padding: 12px 0 0;
         p {
-          padding: 0 0 0 30px;
+          padding: 0 0 0 8px;
           font-size: 12px;
           color: @textActive;
         }
         .item-container {
-          padding: 0 20px;
+          // padding: 0 20px;
+          padding-left: 20px;
+          padding-right: 8px;
           height: 40px;
           line-height: 40px;
           &:hover {
@@ -421,35 +522,64 @@ header {
           .item {
             display: flex;
             align-items: center;
+            position: relative;
             img {
               width: 24px;
               height: 24px;
               margin-left: 6px;
+              &.selected-icon {
+                position: absolute;
+                left: -24px;
+              }
             }
-            span {
+            .name {
               font-size: 12px;
               margin-left: 5px;
               color: @textActive;
+            }
+            .gap {
+              flex: 1;
+            }
+            i {
+              width: 56px;
+              height: 20px;
+              font-size: 12px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              font-style: normal;
+              &.network-tag-Devnet {
+                background: rgba(#034e70, 0.5);
+                color: #75c8ff;
+              }
+              &.network-tag-Testnet {
+                background: rgba(#41528e, 0.5);
+                color: #8c9dff;
+              }
+              &.network-tag-Mainnet {
+                background: rgba(#213f37, 0.5);
+                color: #67ffd8;
+              }
             }
           }
         }
         .item-active-container {
           width: 100%;
           background: @buttonDetailDefault;
-          padding: 0 3px !important;
+          // padding: 0 3px !important;
           border: 1px solid @borderDefault;
           &:hover {
             background: transparent;
           }
           .item {
-            img {
-              margin-left: 0px;
-              &:nth-child(1) {
-                width: 20px;
-                height: 20px;
-                margin-right: 2px;
-              }
-            }
+            // img {
+            //   margin-left: 0px;
+            //   &:nth-child(1) {
+            //     width: 20px;
+            //     height: 20px;
+            //     margin-right: 2px;
+            //   }
+            // }
             span {
               color: @themeColor;
             }
@@ -496,7 +626,7 @@ header {
         }
       }
       .list {
-        width: 90px;
+        width: 96px;
         position: absolute;
         top: 36px;
         right: 0;

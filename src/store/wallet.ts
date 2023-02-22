@@ -70,7 +70,8 @@ export const useWalletStore = defineStore('wallet', {
           this.suiConnected = data.isConnected
           this.suiAddress = data.account
           this.suiWalletIcon = data.icon
-          this.suiWalletName = data.wallet.name
+          this.suiWalletName = data.walletName
+          this.walletName = data.walletName
         } else {
           this.aptosCurrentWallet = data.wallet
           this.aptosConnected = data.isConnected

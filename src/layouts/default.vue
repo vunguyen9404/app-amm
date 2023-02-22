@@ -36,6 +36,7 @@ import { useLiquidityStore } from '@/store/liquidity'
 import { TOKENS } from '@/utils/tokens'
 import { useRouter, useRoute } from 'vue-router'
 import useWalletProvider from '@/composables/useWalletProvider'
+import configure from '@/utils/config'
 
 export default defineComponent({
   components: { CHead },
@@ -48,9 +49,15 @@ export default defineComponent({
       if (route && route.query && route.query.source) {
         themeStore.seleteDefaultTheme()
       } else {
-        const localTheme = localStorage.getItem('theme')
-        if (localTheme === 'sui') {
-          themeStore.selectSuiTheme()
+        const platform = route?.query?.chain
+        const network = route?.query?.network
+        const localTheme = platform || localStorage.getItem('theme')
+        if (localTheme && localTheme.includes('sui')) {
+          if (network === 'testnet' || localTheme === 'sui2') {
+            themeStore.selectSui2Theme()
+          } else {
+            themeStore.selectSuiTheme()
+          }
         } else {
           themeStore.seleteDefaultTheme()
         }
@@ -70,14 +77,20 @@ export default defineComponent({
     })
 
     //------------------watch wallet network start
-    window?.aptos?.onNetworkChange(newNetwork => {
-      walletStore.setNetwork(newNetwork.networkName)
-    })
-    window?.martian?.onNetworkChange(networkName => walletStore.setNetwork(networkName))
+    if (window && window.aptos && window.aptos.onNetworkChange) {
+      window?.aptos?.onNetworkChange(newNetwork => {
+        walletStore.setNetwork(newNetwork.networkName)
+      })
+    }
+    if (window && window.martian && window.martian.onNetworkChange) {
+      window?.martian?.onNetworkChange(networkName => walletStore.setNetwork(networkName))
+    }
 
-    window?.pontem?.onNetworkChange(newNetwork => {
-      walletStore.setNetwork(newNetwork.name)
-    })
+    if (window && window.pontem && window.pontem.onNetworkChange) {
+      window?.pontem?.onNetworkChange(newNetwork => {
+        walletStore.setNetwork(newNetwork.name)
+      })
+    }
 
     //------------------watch wallet netword end
     counter.getStatsData()
@@ -94,10 +107,37 @@ export default defineComponent({
         if (newValue) {
           liquidityStore.getTokenList(newValue)
           liquidityStore.getLpList(newValue)
+          if (newValue == 'Aptos') {
+            liquidityStore.getCmmLpList(newValue)
+          }
         }
       },
       {
         immediate: true
+      }
+    )
+    const config = computed(() => {
+      return configure[store.value.chainName]
+    })
+    const router = useRoute()
+    watch(
+      () => [router.path, configure[store.value.chainName], counter.lang, store.value.chainName],
+      ([newValue, config, lang, chainName]) => {
+        if (config && chainName == 'Aptos') {
+          if (newValue == '/swap') {
+            window.location.href = `${configure[store.value.chainName].cmmSite}/swap/?language=${lang}`
+          }
+          if (newValue == '/stats') {
+            window.location.href = `${configure[store.value.chainName].cmmSite}/stats/?language=${lang}`
+          }
+          if (router.path && router.path.includes('pools-liquidity-add')) {
+            window.location.href = `${configure[store.value.chainName].cmmSite}/?language=${lang}`
+          }
+        }
+      },
+      {
+        immediate: true,
+        deep: true
       }
     )
 
@@ -125,8 +165,12 @@ export default defineComponent({
       const chainName = localStorage.getItem('chainName')
       const walletName = localStorage.getItem(`cetus-${chainName}-current-wallet`)
       const walletIconName = localStorage.getItem(`cetus-${chainName}-wallet-icon-name`)
+      const suiwalletName = localStorage.getItem(`cetus-${chainName}-current-suiwallet`)
+
       if (walletName) {
-        walletProvider.connect(walletName, walletIconName, chainName)
+        walletProvider.connect(walletName, walletIconName, chainName, '', suiwalletName)
+      } else if (chainName && chainName.toLowerCase().includes('sui')) {
+        walletProvider.disconnect()
       }
 
       walletTimer.value = window.setInterval(async () => {
@@ -150,7 +194,8 @@ export default defineComponent({
     watch(
       () => store.value.theme,
       newValue => {
-        document.getElementsByTagName('body')[0].className = `theme-${newValue}`
+        const chain = newValue === 'sui2' ? 'sui' : newValue
+        document.getElementsByTagName('body')[0].className = `theme-${chain}`
         if (newValue) {
           autoConnet()
           isLoading.value = true
@@ -227,16 +272,16 @@ export default defineComponent({
 }
 .default-container {
   width: 100%;
-  // min-width: 1050px;
+  min-width: 1100px;
   // margin: 0 auto;
   height: 100vh;
   position: relative;
   background: @backgroundColor;
   .header-container {
     width: 100%;
-    // min-width: 1050px;
-    // position: static;
-    position: fixed;
+    min-width: 1100px;
+    position: static;
+    // position: fixed;
     top: 0;
     left: 0;
     z-index: 99;
@@ -283,8 +328,9 @@ export default defineComponent({
     min-width: unset;
     .header-container {
       width: 100%;
+      min-width: unset !important;
       // padding-top: 20px;
-      position: fixed;
+      position: fixed !important;
       top: 0;
       left: 0;
     }

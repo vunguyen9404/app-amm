@@ -40,7 +40,8 @@ const themes = {
     textWarning: '#FF6868',
     borderDefault: '#213F37',
     redColor: '#ff5073',
-    h5Stats: 'linear-gradient(180deg, #131514 0%, #1E322D 100%)'
+    h5Stats: 'linear-gradient(180deg, #131514 0%, #1E322D 100%)',
+    termGradient: 'linear-gradient(270deg, #273632 0%, #202020 51%, #273632 100%)'
   },
   sui: {
     primaryColor: '#76C8FF',
@@ -62,7 +63,7 @@ const themes = {
     cardEnter: '#0F0F0F',
     cardAsset: 'linear-gradient(180deg, #1A1A1A, #0F0F0F )',
     cardTop: 'linear-gradient(270deg, #000000 0%, #152533 100%)',
-    cardTopTrans: 'linear-gradient(270deg, #1b1b1b 0%, #18232D 100%)',
+    cardTopTrans: 'linear-gradient(270deg, #252B2D 0%, #252F39 100%)',
     cardTopReserve: 'linear-gradient(270deg, #152533 0%, #000000 100%)',
     cardCenter: 'linear-gradient(270deg, #1B1F25 0%, #161717 52%, #1B2025 100%)',
     cardCenterHover: 'linear-gradient(270deg, #26303C 0%, #161717 52%, #26303C 100%)',
@@ -80,7 +81,49 @@ const themes = {
     textTips: '#FFCA68',
     textWarning: '#FF6868',
     borderDefault: '#044D70',
-    h5Stats: 'linear-gradient(180deg, #1E2A32 0%, #121212 100%)'
+    h5Stats: 'linear-gradient(180deg, #1E2A32 0%, #121212 100%)',
+    termGradient: 'linear-gradient(270deg, #314854 0%, #202020 51%, #314854 100%)'
+  },
+  sui2: {
+    primaryColor: '#76C8FF',
+    themeColor: '#76C8FF',
+    backgroundColor: '#1f2224',
+    buttonDefault: '#76C8FF',
+    buttonHover: '#A4E2FF',
+    buttonDisabled: '#32333B',
+    buttonDetailDefault: '#181818',
+    buttonDetailHover: '#121B1F',
+    depositBtnHover: '#1D3443',
+    buttonPositionDefault: '#1E2E2A',
+    buttonPositionHover: '#2D443E',
+    tabActive: '#181818',
+    tabHover: '#191919',
+    tabDefault: '#080808',
+    cardDefault: '#171717',
+    cardEmphasize: '#1B1B1B',
+    cardEnter: '#0F0F0F',
+    cardAsset: 'linear-gradient(180deg, #1A1A1A, #0F0F0F )',
+    cardTop: 'linear-gradient(270deg, #000000 0%, #152533 100%)',
+    cardTopTrans: 'linear-gradient(270deg, #252B2D 0%, #252F39 100%)',
+    cardTopReserve: 'linear-gradient(270deg, #152533 0%, #000000 100%)',
+    cardCenter: 'linear-gradient(270deg, #1B1F25 0%, #161717 52%, #1B2025 100%)',
+    cardCenterHover: 'linear-gradient(270deg, #26303C 0%, #161717 52%, #26303C 100%)',
+    moreBg: 'linear-gradient(360deg, #171717 0%, #152533 100%)',
+    moreBgReserve: 'linear-gradient(360deg, #0E2836 0%, #121212 100%)',
+    moreBgReserveHover: 'linear-gradient(360deg, #223857 0%, #121212 100%)',
+    borderGradient: 'linear-gradient(180deg, transparent 0%, #76C8FF 52%, transparent 100%)',
+    greenBg: '#192a26',
+    redBg: '#2b181c',
+    redColor: '#ff5073',
+    textDefault: '#CDCDCD',
+    textDefaultStats: '#7F7F7F',
+    textActive: '#fff',
+    textEffect: '#B5B8C2',
+    textTips: '#FFCA68',
+    textWarning: '#FF6868',
+    borderDefault: '#044D70',
+    h5Stats: 'linear-gradient(180deg, #1E2A32 0%, #121212 100%)',
+    termGradient: 'linear-gradient(270deg, #314854 0%, #202020 51%, #314854 100%)'
   }
 }
 
@@ -99,6 +142,7 @@ export default function () {
     const themeConfig = themes[themeName]
     // If there is a theme name, then use the theme we defined
     if (themeConfig) {
+      localStorage.setItem('termGradient', themeConfig['termGradient'])
       localStorage.setItem('primaryColor', themeConfig['primaryColor'])
       localStorage.setItem('themeColor', themeConfig['themeColor'])
       localStorage.setItem('backgroundColor', themeConfig['backgroundColor'])
@@ -140,6 +184,7 @@ export default function () {
       changeStyle(themeConfig)
     } else {
       const themeConfig = {
+        termGradient: localStorage.getItem('termGradient'),
         primaryColor: localStorage.getItem('primaryColor'),
         backgroundColor: localStorage.getItem('backgroundColor'),
         themeColor: localStorage.getItem('themeColor'),
@@ -190,8 +235,13 @@ export default function () {
     setTheme('sui')
   }
 
+  const selectSui2Theme = () => {
+    setTheme('sui2')
+  }
+
   return {
     seleteDefaultTheme,
-    selectSuiTheme
+    selectSuiTheme,
+    selectSui2Theme
   }
 }

@@ -35,10 +35,12 @@ export default defineNuxtConfig({
         {
           rel: 'icon',
           type: 'image/x-icon',
-          href: '/favicon.ico?t=5678'
+          href: '/favicon.ico?t=1234'
         }
       ],
-      script: [{ src: '/iconfont.js' }]
+      script: [
+        { src: 'https://at.alicdn.com/t/c/font_3580402_nsrlexcd2d.js?spm=a313x.7781069.1998910419.57&file=font_3580402_nsrlexcd2d.js' }
+      ]
     }
   },
   dir: {

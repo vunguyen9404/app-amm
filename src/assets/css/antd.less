@@ -7,7 +7,13 @@
     .ant-modal-body{
       padding: 0 !important;
     }
-  }
+}
+.remove-success{
+    .ant-modal-body{
+        background: url('../image/remove-deposit-bg.png') !important;
+        background-size: 100% 100% !important;
+    }
+}
 .ant-spin-spinning{
     width: 100%;
     position: relative;
@@ -149,7 +155,7 @@ span[ant-click-animating-without-extra-node]:after {
 .ant-modal {
     padding-bottom: 120px !important;
     .ant-modal-header {
-        background: #161616;
+        background: @backgroundColor;
         border: none;
         padding:16px 16px 0;
         .ant-modal-title {
@@ -158,7 +164,7 @@ span[ant-click-animating-without-extra-node]:after {
     }
 
     .ant-modal-content {
-        background: #161616;
+        background: @backgroundColor;
 
         .ant-modal-body {
             padding:16px 16px;
@@ -205,10 +211,14 @@ span[ant-click-animating-without-extra-node]:after {
 
 .wallet-modal {
     // height: 100% !important;
-    background: #161616;
-    max-height: 90vh;
+    background: @backgroundColor;
+    // max-height: 90vh;
     overflow-y: auto;
     padding-bottom: 0px !important;
+    .ant-modal-content{
+        max-height: 90vh;
+        overflow-y: auto;
+    }
   }
 
 .ant-input {
@@ -277,7 +287,7 @@ span[ant-click-animating-without-extra-node]:after {
 .ant-notification-copy {
     width: 400px;
     height: 56px;
-    background: #161616 !important;
+    background: @backgroundColor !important;
 
     .ant-notification-notice-content {
         .ant-notification-notice-message {

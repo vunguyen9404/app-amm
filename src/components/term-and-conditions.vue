@@ -4,12 +4,14 @@
       <div class="box">
         <h3 class="title">Term and Conditions</h3>
         <div class="img-box">
-          <img src="../assets/image/img-Term-and-Conditions@2x.png" />
+          <img v-if="store.theme !== 'default'" src="../assets/sui-image/img-Sui-Term-and-Conditions@3x.png" />
+          <img v-else src="../assets/image/img-Term-and-Conditions@2x.png" />
         </div>
         <p class="note">Please read & accept terms before using this site.</p>
         <div class="accept">
           <div class="radio" @click="isSelect = !isSelect">
-            <img v-if="isSelect" src="../assets/image/icon-selected@2x.png" />
+            <img v-if="isSelect && store.theme === 'default'" src="../assets/image/icon-selected@2x.png" />
+            <img v-if="isSelect && store.theme !== 'default'" src="../assets/sui-image/icon-selected@3x.png" />
           </div>
           <span>I accept the </span> <a href="https://www.cetus.zone/terms" target="_blank"> terms and conditions</a>
         </div>
@@ -21,17 +23,32 @@
 </template>
 <script>
 import { defineComponent } from 'vue'
+import { useIndexStore } from '../store/index'
 
 export default defineComponent({
   setup() {
     const isSelect = ref(false)
-    return { isSelect }
+    const counter = useIndexStore()
+    const store = computed(() => {
+      return counter
+    })
+    return { isSelect, store }
   }
 })
 </script>
 
 <style lang="less" scoped>
 @import '../assets/css/base.less';
+.theme-sui {
+  .accept {
+    .radio {
+      width: 24px !important;
+      height: 24px !important;
+      background: url('../assets/sui-image/checkbox.png') !important;
+      background-size: 100% 100% !important;
+    }
+  }
+}
 .term-and-conditions {
   width: 100%;
   height: 100%;
@@ -78,7 +95,7 @@ export default defineComponent({
       justify-content: center;
       width: 100%;
       height: 44px;
-      background: linear-gradient(270deg, #273632 0%, #202020 51%, #273632 100%);
+      background: @termGradient;
       .radio {
         width: 24px;
         height: 24px;

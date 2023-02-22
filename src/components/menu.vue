@@ -6,15 +6,24 @@
     </div>
     <div class="menu-list">
       <nuxt-link
+        v-if="currentChain !== 'Aptos'"
         to="/swap"
-        :class="$route.name === 'swap' || $route.path === '/' ? 'nuxt-link-exact-active nuxt-link-active menu-item-active' : ''"
+        :class="$route.name === 'swap' ? 'nuxt-link-exact-active nuxt-link-active menu-item-active' : ''"
       >
         <span>{{ $t('menu.swap') }}</span>
       </nuxt-link>
+      <a
+        v-else-if="config"
+        :href="`${config.cmmSite}/swap`"
+        :class="$route.name === 'swap' ? 'nuxt-link-exact-active nuxt-link-active menu-item-active' : ''"
+      >
+        {{ $t('menu.swap') }}
+      </a>
       <nuxt-link
+        v-if="store.theme !== 'default'"
         to="/pools"
         :class="
-          $route.name === 'pools' ||
+          $route.path === '/' ||
           $route.name === 'pools' ||
           $route.name === 'position-list' ||
           $route.name === 'remove-liquidity' ||
@@ -22,6 +31,8 @@
           $route.name === 'pools-position' ||
           $route.name === 'pools-liquidity-add' ||
           $route.name === 'pools-management-remove' ||
+          $route.path.includes('pools-liquidity-add') ||
+          $route.path.includes('pools-management-remove') ||
           $route.path.includes('position-detail')
             ? 'nuxt-link-exact-active nuxt-link-active menu-item-active'
             : ''
@@ -29,17 +40,35 @@
       >
         <span>{{ $t('menu.pools') }}</span>
       </nuxt-link>
+      <a
+        v-else-if="config"
+        :href="`${config.cmmSite}/pools`"
+        :class="
+          $route.name === 'pools' || $route.path.includes('pools-liquidity-add') || $route.path.includes('pools-management-remove')
+            ? 'nuxt-link-exact-active nuxt-link-active menu-item-active'
+            : ''
+        "
+      >
+        {{ $t('menu.pools') }}
+      </a>
       <a href="https://bridge.cetus.zone/">
         <span>{{ $t('menu.bridge') }}</span>
       </a>
 
-      <nuxt-link
+      <!-- <nuxt-link
         v-if="store.theme == 'default'"
         to="/stats"
         :class="$route.name === 'stats' ? 'nuxt-link-exact-active nuxt-link-active menu-item-active' : ''"
       >
         <span>{{ $t('menu.stats') }}</span>
-      </nuxt-link>
+      </nuxt-link> -->
+      <a
+        v-if="store.theme == 'default'"
+        :href="`${config.cmmSite}/stats`"
+        :class="$route.name === 'stats' ? 'nuxt-link-exact-active nuxt-link-active menu-item-active' : ''"
+      >
+        {{ $t('menu.stats') }}
+      </a>
     </div>
     <!-- <div class="swaichChain" @click.stop="openSwitchChain = !openSwitchChain">
       <div :class="openSwitchChain ? 'text rodegText' : 'text'">
@@ -96,7 +125,7 @@
               :class="item.value == counter.lang ? 'item-container item-active-container' : 'item-container'"
             >
               <div class="item" @click="changeLang(item.value)">
-                <span>{{ item.label }}</span>
+                <span>{{ item.icon }}&nbsp;&nbsp;{{ item.label }}</span>
               </div>
             </div>
           </div>
@@ -106,25 +135,25 @@
         <div class="contact-us-item">
           <a class="item" href="https://cetus-1.gitbook.io/cetus-docs/" target="_blank">
             <svg aria-hidden="true" class="icon">
-              <use xlink:href="#icon-icon-Docs" />
+              <use xlink:href="#icon-svg-docs" />
             </svg>
             <span>{{ $t('contactUS.docs') }}</span>
           </a>
         </div>
         <div class="contact-us-list">
-          <div class="contact-us-item">
+          <!-- <div class="contact-us-item">
             <a class="item" href="https://twitter.com/CetusProtocol" target="_blank">
               <svg aria-hidden="true" class="icon">
-                <use xlink:href="#icon-icon-twitter" />
+                <use xlink:href="#icon-svg-twitter" />
               </svg>
               <span>{{ $t('contactUS.twitter') }}</span>
             </a>
-          </div>
+          </div> -->
 
           <div class="contact-us-item">
             <a class="item" href="https://twitter.com/CetusProtocol" target="_blank">
               <svg aria-hidden="true" class="icon">
-                <use xlink:href="#icon-icon-twitter" />
+                <use xlink:href="#icon-svg-twitter" />
               </svg>
               <span>{{ $t('contactUS.twitter') }}</span>
             </a>
@@ -133,7 +162,7 @@
           <div class="contact-us-item">
             <a class="item" href="https://discord.gg/rQtYGfmcD8" target="_blank">
               <svg aria-hidden="true" class="icon">
-                <use xlink:href="#icon-icon-Discord" />
+                <use xlink:href="#icon-svg-Discord" />
               </svg>
               <span>{{ $t('contactUS.discord') }}</span>
             </a>
@@ -142,25 +171,25 @@
           <div class="contact-us-item">
             <a class="item" href="https://t.me/cetuscommunity" target="_blank">
               <svg aria-hidden="true" class="icon">
-                <use xlink:href="#icon-icon-telegram" />
+                <use xlink:href="#icon-svg-lark" />
               </svg>
               <span>{{ $t('contactUS.tgGroup') }}</span>
             </a>
           </div>
 
-          <div class="contact-us-item">
+          <!-- <div class="contact-us-item">
             <a class="item" href="https://t.me/cetusprotocol" target="_blank">
               <svg aria-hidden="true" class="icon">
-                <use xlink:href="#icon-icon-TgChannel" />
+                <use xlink:href="#icon-svg-tg" />
               </svg>
               <span>{{ $t('contactUS.tgChannel') }}</span>
             </a>
-          </div>
+          </div> -->
 
           <div class="contact-us-item">
             <a class="item" href="https://t.me/cetusprotocol" target="_blank">
               <svg aria-hidden="true" class="icon">
-                <use xlink:href="#icon-icon-TgChannel" />
+                <use xlink:href="#icon-svg-tg" />
               </svg>
               <span>{{ $t('contactUS.tgChannel') }}</span>
             </a>
@@ -176,6 +205,8 @@ import { useIndexStore } from '@/store'
 import { defineComponent, computed, ref, onMounted, onUnmounted } from 'vue'
 import importIcon from '@/utils/import-icon'
 import { useI18n } from 'vue-i18n'
+import configure from '@/utils/config'
+
 export default defineComponent({
   props: {
     openH5Icon: {
@@ -188,32 +219,32 @@ export default defineComponent({
     let list = [
       {
         name: t('contactUS.docs'),
-        icon: '#icon-icon-Docs',
+        icon: '#icon-svg-docs',
         link: 'https://cetus-1.gitbook.io/cetus-docs/'
       },
       {
         name: t('contactUS.twitter'),
-        icon: '#icon-icon-twitter',
+        icon: '#icon-svg-twitter',
         link: 'https://twitter.com/CetusProtocol'
       },
       {
         name: t('contactUS.discord'),
-        icon: '#icon-icon-Discord',
+        icon: '#icon-svg-Discord',
         link: 'https://discord.gg/rQtYGfmcD8'
       },
       {
         name: t('contactUS.tgGroup'),
-        icon: '#icon-icon-telegram',
+        icon: '#icon-svg-lark',
         link: 'https://t.me/cetuscommunity'
       },
       {
         name: t('contactUS.tgChannel'),
-        icon: '#icon-icon-TgChannel',
+        icon: '#icon-svg-tg',
         link: 'https://t.me/cetusprotocol'
       },
       {
         name: t('contactUS.medium'),
-        icon: '#icon-icon-medium',
+        icon: '#icon-svg-medium',
         link: 'https://medium.com/@CetusProtocol'
       }
     ]
@@ -254,32 +285,55 @@ export default defineComponent({
     }
 
     const langObj = {
-      en: 'English',
-      th: 'ไทย',
-      // kr: '한국어',
-      vi: 'Tiếng Việt',
-      ru: 'Русский'
+      en: '🇬🇧 English',
+      th: '🇹🇭 ไทย',
+      hi: '🇮🇳 Hindī',
+      kr: '🇰🇷 한국어',
+      vi: '🇻🇳 Tiếng Việt',
+      ja: '🇯🇵 日本語',
+      ru: '🇷🇺 Русский',
+      tr: '🇹🇷 Türkçe'
     }
     const langList = [
       {
+        icon: '🇬🇧',
         label: 'English',
         value: 'en'
       },
       {
+        icon: '🇹🇭',
         label: 'ไทย',
         value: 'th'
       },
-      // {
-      //   label: '한국어',
-      //   value: 'kr'
-      // },
       {
+        icon: '🇮🇳',
+        label: 'Hindī',
+        value: 'hi'
+      },
+      {
+        icon: '🇰🇷',
+        label: '한국어',
+        value: 'kr'
+      },
+      {
+        icon: '🇻🇳',
         label: 'Tiếng Việt',
         value: 'vi'
       },
       {
+        icon: '🇯🇵',
+        label: '日本語',
+        value: 'ja'
+      },
+      {
+        icon: '🇷🇺',
         label: 'Русский',
         value: 'ru'
+      },
+      {
+        icon: '🇹🇷',
+        label: 'Türkçe',
+        value: 'tr'
       }
     ]
     const { locale } = useI18n()
@@ -291,37 +345,43 @@ export default defineComponent({
       list = [
         {
           name: t('contactUS.docs'),
-          icon: '#icon-icon-Docs',
+          icon: '#icon-svg-docs',
           link: 'https://cetus-1.gitbook.io/cetus-docs/'
         },
         {
           name: t('contactUS.twitter'),
-          icon: '#icon-icon-twitter',
+          icon: '#icon-svg-twitter',
           link: 'https://twitter.com/CetusProtocol'
         },
         {
           name: t('contactUS.discord'),
-          icon: '#icon-icon-Discord',
+          icon: '#icon-svg-Discord',
           link: 'https://discord.gg/cetusprotocol'
         },
         {
           name: t('contactUS.tgGroup'),
-          icon: '#icon-icon-telegram',
+          icon: '#icon-svg-lark',
           link: 'https://t.me/cetuscommunity'
         },
         {
           name: t('contactUS.tgChannel'),
-          icon: '#icon-icon-TgChannel',
+          icon: '#icon-svg-tg',
           link: 'https://t.me/cetusprotocol'
         },
         {
           name: t('contactUS.medium'),
-          icon: '#icon-icon-medium',
+          icon: '#icon-svg-medium',
           link: 'https://medium.com/@CetusProtocol'
         }
       ]
     }
+    const config = computed(() => {
+      console.log('0202####store.value.chainName###', store.value.chainName)
+      console.log('0202####configure###', configure)
+      return configure[store.value.chainName]
+    })
     return {
+      config,
       changeChain,
       currentChain,
       chainList,
@@ -541,7 +601,7 @@ export default defineComponent({
       }
       .switch-lang {
         display: block;
-        width: 120px;
+        width: 130px;
         height: 36px;
         padding: 6px 12px;
         background: @buttonDetailDefault;
@@ -568,9 +628,9 @@ export default defineComponent({
           }
         }
         .list {
-          width: 120px;
-          // height: 200px;
-          // overflow: scroll;
+          width: 130px;
+          height: 150px;
+          overflow: scroll;
           position: absolute;
           top: 36px;
           left: 0;
@@ -662,8 +722,8 @@ export default defineComponent({
         }
       }
       span {
-        font-size: 16px;
-        font-weight: 600;
+        font-size: 14px;
+        // font-weight: 600;
       }
     }
     .more {
