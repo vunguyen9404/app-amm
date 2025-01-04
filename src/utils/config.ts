@@ -1,4 +1,4 @@
-const env = 'pro'
+const env = 'test'
 
 // const platform = localStorage.getItem('chainName') || 'Aptos'
 // const platform = 'Aptos'
